@@ -14,36 +14,29 @@
     </div>
     <div>
       <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
+      <button id="theme-toggle" class="menu-card" style="padding:8px 12px; margin-left:10px;">🌙 Dark Mode</button>
     </div>
   </header>
 
   <main class="container">
     <section class="menu-grid">
-      <a class="menu-card role-parent" href="#">
-        <div class="menu-icon">📖</div>
-        <h3 class="menu-title">Progress Reports</h3>
-        <p class="menu-desc">Grades and badges.</p>
-      </a>
-      <a class="menu-card role-parent" href="#">
-        <div class="menu-icon">📅</div>
-        <h3 class="menu-title">School Calendar</h3>
-        <p class="menu-desc">Events and holidays.</p>
-      </a>
-      <a class="menu-card role-parent" href="#">
-        <div class="menu-icon">💬</div>
-        <h3 class="menu-title">Messages</h3>
-        <p class="menu-desc">Talk to teachers.</p>
-      </a>
-      <a class="menu-card role-parent" href="#">
-        <div class="menu-icon">💳</div>
-        <h3 class="menu-title">Payments & Fees</h3>
-        <p class="menu-desc">Invoices and receipts.</p>
-      </a>
+      <a class="menu-card role-parent" href="#"><div class="menu-icon">📖</div><h3 class="menu-title">Progress Reports</h3><p class="menu-desc">Grades and badges.</p></a>
+      <a class="menu-card role-parent" href="#"><div class="menu-icon">📅</div><h3 class="menu-title">School Calendar</h3><p class="menu-desc">Events and holidays.</p></a>
+      <a class="menu-card role-parent" href="#"><div class="menu-icon">💬</div><h3 class="menu-title">Messages</h3><p class="menu-desc">Talk to teachers.</p></a>
+      <a class="menu-card role-parent" href="#"><div class="menu-icon">💳</div><h3 class="menu-title">Payments & Fees</h3><p class="menu-desc">Invoices and receipts.</p></a>
     </section>
   </main>
 
   <footer class="site-footer">
     <p>© 2025 Asia & Julio Primary School</p>
   </footer>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('theme-dark');
+      toggleBtn.textContent = document.body.classList.contains('theme-dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+  </script>
 </body>
 </html>

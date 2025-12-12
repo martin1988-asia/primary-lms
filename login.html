@@ -1,44 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login · Asia & Julio Primary LMS</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="login.js" defer></script>
 </head>
 <body>
-  <main class="container">
-    <h1>Login</h1>
-    <form id="loginForm">
-      <label>Email:</label>
-      <input type="email" id="email" required>
-      <label>Password:</label>
-      <input type="password" id="password" required>
-      <button type="submit">Login</button>
-    </form>
-    <p>No account? <a href="register.html">Register here</a></p>
-  </main>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label for="role">Choose Role:</label>
+    <select id="role" name="role" required>
+      <option value="">--Select--</option>
+      <option value="admin">Admin</option>
+      <option value="teacher">Teacher</option>
+      <option value="parent">Parent</option>
+      <option value="student">Student</option>
+    </select><br><br>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    <div id="passwordField">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+    </div><br>
 
-      // Demo logic — replace with backend later
-      if(email.includes("admin")) {
-        localStorage.setItem("role", "admin");
-        window.location.href = "index.html";
-      } else if(email.includes("teacher")) {
-        localStorage.setItem("role", "teacher");
-        window.location.href = "index.html";
-      } else if(email.includes("parent")) {
-        localStorage.setItem("role", "parent");
-        window.location.href = "index.html";
-      } else {
-        localStorage.setItem("role", "student");
-        window.location.href = "students.html";
-      }
-    });
-  </script>
+    <button type="submit">Login</button>
+  </form>
 </body>
 </html>

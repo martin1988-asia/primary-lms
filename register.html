@@ -1,39 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Register · Asia & Julio Primary LMS</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="container">
-    <h1>Register</h1>
-    <form id="registerForm">
-      <label>Name:</label>
-      <input type="text" id="name" required>
-      <label>Email:</label>
-      <input type="email" id="email" required>
-      <label>Password:</label>
-      <input type="password" id="password" required>
-      <label>Role:</label>
-      <select id="role">
-        <option value="student">Student</option>
-        <option value="parent">Parent</option>
-        <option value="teacher">Teacher</option>
-        <option value="admin">Admin (Principal/HOD only)</option>
-      </select>
-      <button type="submit">Register</button>
-    </form>
-  </main>
+  <h2>Register</h2>
+  <form>
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
 
-  <script>
-    document.getElementById("registerForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const role = document.getElementById("role").value;
-      localStorage.setItem("role", role);
-      alert("Registered successfully! Please login.");
-      window.location.href = "login.html";
-    });
-  </script>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+      <option value="student">Student</option>
+      <option value="parent">Parent</option>
+      <option value="teacher">Teacher</option>
+      <option value="admin">Admin</option>
+    </select><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Register</button>
+  </form>
 </body>
 </html>

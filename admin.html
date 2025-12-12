@@ -14,29 +14,36 @@
     </div>
     <div>
       <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-      <button id="theme-toggle" class="menu-card" style="padding:8px 12px; margin-left:10px;">🌙 Dark Mode</button>
     </div>
   </header>
 
   <main class="container">
     <section class="menu-grid">
-      <a class="menu-card role-admin" href="#"><div class="menu-icon">👥</div><h3 class="menu-title">User Management</h3><p class="menu-desc">Students, teachers, parents.</p></a>
-      <a class="menu-card role-admin" href="#"><div class="menu-icon">🔒</div><h3 class="menu-title">Roles & Permissions</h3><p class="menu-desc">Access control.</p></a>
-      <a class="menu-card role-admin" href="#"><div class="menu-icon">📑</div><h3 class="menu-title">Reports & Analytics</h3><p class="menu-desc">School-wide metrics.</p></a>
-      <a class="menu-card role-admin" href="#"><div class="menu-icon">⚙️</div><h3 class="menu-title">System Settings</h3><p class="menu-desc">Themes and options.</p></a>
+      <a class="menu-card role-admin" href="#">
+        <div class="menu-icon">👥</div>
+        <h3 class="menu-title">User Management</h3>
+        <p class="menu-desc">Students, teachers, parents.</p>
+      </a>
+      <a class="menu-card role-admin" href="#">
+        <div class="menu-icon">🔒</div>
+        <h3 class="menu-title">Roles & Permissions</h3>
+        <p class="menu-desc">Access control.</p>
+      </a>
+      <a class="menu-card role-admin" href="#">
+        <div class="menu-icon">📑</div>
+        <h3 class="menu-title">Reports & Analytics</h3>
+        <p class="menu-desc">School-wide metrics.</p>
+      </a>
+      <a class="menu-card role-admin" href="#">
+        <div class="menu-icon">⚙️</div>
+        <h3 class="menu-title">System Settings</h3>
+        <p class="menu-desc">Themes and options.</p>
+      </a>
     </section>
   </main>
 
   <footer class="site-footer">
     <p>© 2025 Asia & Julio Primary School</p>
   </footer>
-
-  <script>
-    const toggleBtn = document.getElementById('theme-toggle');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('theme-dark');
-      toggleBtn.textContent = document.body.classList.contains('theme-dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
-    });
-  </script>
 </body>
 </html>

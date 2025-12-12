@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Reading</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: #f5f5f5; padding: 16px; }
-    header h1 { margin: 0; }
-    main { padding: 16px; }
-    nav a { text-decoration: none; color: #0366d6; font-weight: 600; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reading · Asia & Julio Primary School LMS</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>Reading</h1>
-    <nav><a href="students.html">← Back to subjects</a></nav>
+  <header class="site-header">
+    <div class="brand">
+      <h1 class="brand-title">Reading & Writing</h1>
+      <p class="brand-subtitle">Stories and spelling</p>
+    </div>
+    <div>
+      <a href="students.html" class="menu-card" style="padding:8px 12px;">← Back to Subjects</a>
+    </div>
   </header>
-  <main>
-    <p>Reading lessons will appear here.</p>
+
+  <main class="container">
+    <section class="menu-grid">
+      <a class="menu-card role-student" href="stories.html">
+        <div class="menu-icon"><i class="fas fa-book-open"></i></div>
+        <h3 class="menu-title">Stories</h3>
+        <p class="menu-desc">Read fun tales.</p>
+      </a>
+
+      <a class="menu-card role-student" href="phonics.html">
+        <div class="menu-icon"><i class="fas fa-spell-check"></i></div>
+        <h3 class="menu-title">Phonics</h3>
+        <p class="menu-desc">Learn sounds and letters.</p>
+      </a>
+
+      <a class="menu-card role-student" href="spelling.html">
+        <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
+        <h3 class="menu-title">Spelling</h3>
+        <p class="menu-desc">Practice writing words.</p>
+      </a>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

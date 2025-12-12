@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Science</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: #f5f5f5; padding: 16px; }
-    header h1 { margin: 0; }
-    main { padding: 16px; }
-    nav a { text-decoration: none; color: #0366d6; font-weight: 600; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Science · Asia & Julio Primary School LMS</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>Science</h1>
-    <nav><a href="students.html">← Back to subjects</a></nav>
+  <header class="site-header">
+    <div class="brand">
+      <h1 class="brand-title">Science</h1>
+      <p class="brand-subtitle">Explore and discover</p>
+    </div>
+    <div>
+      <a href="students.html" class="menu-card" style="padding:8px 12px;">← Back to Subjects</a>
+    </div>
   </header>
-  <main>
-    <p>Science lessons will appear here.</p>
+
+  <main class="container">
+    <section class="menu-grid">
+      <a class="menu-card role-student" href="experiments.html">
+        <div class="menu-icon"><i class="fas fa-flask"></i></div>
+        <h3 class="menu-title">Experiments</h3>
+        <p class="menu-desc">Hands-on science fun.</p>
+      </a>
+
+      <a class="menu-card role-student" href="nature.html">
+        <div class="menu-icon"><i class="fas fa-leaf"></i></div>
+        <h3 class="menu-title">Nature</h3>
+        <p class="menu-desc">Plants, animals, environment.</p>
+      </a>
+
+      <a class="menu-card role-student" href="quizzes.html">
+        <div class="menu-icon"><i class="fas fa-question-circle"></i></div>
+        <h3 class="menu-title">Quizzes</h3>
+        <p class="menu-desc">Test your knowledge.</p>
+      </a>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

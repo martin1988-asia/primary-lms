@@ -2,17 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Math · Asia & Julio Primary School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Math · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>Math</h1>
-    <a href="students.html">← Back to Students</a>
+    <div class="brand">
+      <h1 class="brand-title">Math</h1>
+      <p class="brand-subtitle">Numbers and problem solving</p>
+    </div>
+    <div>
+      <a href="students.html" class="menu-card" style="padding:8px 12px;">← Back to Subjects</a>
+    </div>
   </header>
+
   <main class="container">
-    <p>Welcome to the Math section! Practice numbers, shapes, and problem-solving here.</p>
+    <section class="menu-grid">
+      <a class="menu-card role-student" href="addition.html">
+        <div class="menu-icon"><i class="fas fa-plus"></i></div>
+        <h3 class="menu-title">Addition</h3>
+        <p class="menu-desc">Learn to add numbers.</p>
+      </a>
+
+      <a class="menu-card role-student" href="subtraction.html">
+        <div class="menu-icon"><i class="fas fa-minus"></i></div>
+        <h3 class="menu-title">Subtraction</h3>
+        <p class="menu-desc">Practice taking away.</p>
+      </a>
+
+      <a class="menu-card role-student" href="multiplication.html">
+        <div class="menu-icon"><i class="fas fa-times"></i></div>
+        <h3 class="menu-title">Multiplication</h3>
+        <p class="menu-desc">Times tables and patterns.</p>
+      </a>
+
+      <a class="menu-card role-student" href="division.html">
+        <div class="menu-icon"><i class="fas fa-divide"></i></div>
+        <h3 class="menu-title">Division</h3>
+        <p class="menu-desc">Sharing and grouping.</p>
+      </a>
+    </section>
   </main>
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
+
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

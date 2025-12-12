@@ -2,17 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Homework · Asia & Julio Primary School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homework · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>Homework</h1>
-    <a href="students.html">← Back to Students</a>
+    <div class="brand">
+      <h1 class="brand-title">Homework</h1>
+      <p class="brand-subtitle">Assignments and uploads</p>
+    </div>
+    <div>
+      <a href="students.html" class="menu-card" style="padding:8px 12px;">← Back to Subjects</a>
+    </div>
   </header>
+
   <main class="container">
-    <p>Welcome to Homework! Check assignments, upload your work, and track due dates here.</p>
+    <section class="menu-grid">
+      <a class="menu-card role-student" href="assignments.html">
+        <div class="menu-icon"><i class="fas fa-tasks"></i></div>
+        <h3 class="menu-title">Assignments</h3>
+        <p class="menu-desc">Daily and weekly tasks.</p>
+      </a>
+
+      <a class="menu-card role-student" href="uploads.html">
+        <div class="menu-icon"><i class="fas fa-upload"></i></div>
+        <h3 class="menu-title">Uploads</h3>
+        <p class="menu-desc">Submit your work online.</p>
+      </a>
+
+      <a class="menu-card role-student" href="feedback.html">
+        <div class="menu-icon"><i class="fas fa-comments"></i></div>
+        <h3 class="menu-title">Feedback</h3>
+        <p class="menu-desc">Teacher notes and corrections.</p>
+      </a>
+    </section>
   </main>
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
+
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

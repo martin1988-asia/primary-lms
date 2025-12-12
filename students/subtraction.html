@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subtraction Basics</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h2>Subtraction Basics</h2>
+  <p>Subtraction means taking away from a group of objects.</p>
+
+  <!-- Guided Example -->
+  <div class="example">
+    <p>🍎🍎🍎 - 🍎 = 🍎🍎 (3 apples minus 1 equals 2)</p>
+  </div>
+
+  <!-- Key Examples -->
+  <h3>Examples</h3>
+  <ul>
+    <li>5 - 2 = 3</li>
+    <li>9 - 4 = 5</li>
+    <li>10 - 7 = 3</li>
+  </ul>
+
+  <!-- Practice Quiz -->
+  <h3>Practice Questions</h3>
+  <form>
+    <label>6 - 3 = </label>
+    <input type="text" id="q1">
+    <button type="button" onclick="checkAnswer('q1',3)">Check</button><br><br>
+
+    <label>8 - 5 = </label>
+    <input type="text" id="q2">
+    <button type="button" onclick="checkAnswer('q2',3)">Check</button><br><br>
+
+    <label>10 - 2 = </label>
+    <input type="text" id="q3">
+    <button type="button" onclick="checkAnswer('q3',8)">Check</button>
+  </form>
+
+  <script>
+    function checkAnswer(questionId, correctAnswer) {
+      const input = document.getElementById(questionId).value;
+      if (parseInt(input) === correctAnswer) {
+        alert("Correct!");
+      } else {
+        alert("Try again!");
+      }
+    }
+  </script>
+</body>
+</html>

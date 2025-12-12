@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multiplication</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h2>Multiplication</h2>
+  <p>Multiplication is repeated addition.</p>
+
+  <!-- Guided Example -->
+  <div class="example">
+    <p>2 × 3 = 2 + 2 + 2 = 6</p>
+  </div>
+
+  <!-- Key Examples -->
+  <h3>Examples</h3>
+  <ul>
+    <li>2 × 4 = 8</li>
+    <li>3 × 5 = 15</li>
+    <li>4 × 6 = 24</li>
+  </ul>
+
+  <!-- Practice Quiz -->
+  <h3>Practice Questions</h3>
+  <form>
+    <label>2 × 3 = </label>
+    <input type="text" id="q1">
+    <button type="button" onclick="checkAnswer('q1',6)">Check</button><br><br>
+
+    <label>5 × 4 = </label>
+    <input type="text" id="q2">
+    <button type="button" onclick="checkAnswer('q2',20)">Check</button><br><br>
+
+    <label>3 × 7 = </label>
+    <input type="text" id="q3">
+    <button type="button" onclick="checkAnswer('q3',21)">Check</button>
+  </form>
+
+  <script>
+    function checkAnswer(questionId, correctAnswer) {
+      const input = document.getElementById(questionId).value;
+      if (parseInt(input) === correctAnswer) {
+        alert("Correct!");
+      } else {
+        alert("Try again!");
+      }
+    }
+  </script>
+</body>
+</html>

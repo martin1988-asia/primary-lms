@@ -3,12 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Asia & Julio Primary LMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.5; }
+    header, footer { background: #f5f5f5; padding: 16px; }
+    header h1 { margin: 0; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; }
+    nav a { text-decoration: none; color: #0366d6; font-weight: 600; }
+    section { padding: 16px; }
+    h2 { margin-top: 0; }
+    .schedule ul, .announcements ul { padding-left: 18px; }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Asia & Julio Primary</h1>
+  <header>
+    <h1>Welcome to Asia & Julio Primary</h1>
+    <nav>
+      <ul>
+        <li><a href="students.html">Students</a></li>
+        <li><a href="teachers.html">Teachers</a></li>
+        <li><a href="parents.html">Parents</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- Announcements -->
-  <section>
+  <section class="announcements">
     <h2>Announcements</h2>
     <ul>
       <li>School Fair: Friday at 12:00</li>
@@ -16,25 +36,14 @@
     </ul>
   </section>
 
-  <!-- Navigation -->
-  <nav>
-    <ul>
-      <li><a href="students.html">Students</a></li>
-      <li><a href="teachers.html">Teachers</a></li>
-      <li><a href="parents.html">Parents</a></li>
-      <li><a href="admin.html">Admin</a></li>
-    </ul>
-  </nav>
-
-  <!-- Daily Schedule -->
-  <section>
+  <section class="schedule">
     <h2>Today's Schedule</h2>
     <ul>
-      <li>08:00 - Math</li>
-      <li>09:00 - Reading</li>
-      <li>10:00 - Break</li>
-      <li>10:30 - Science</li>
-      <li>11:30 - Arts & Crafts</li>
+      <li>08:00 – Math</li>
+      <li>09:00 – Reading</li>
+      <li>10:00 – Break</li>
+      <li>10:30 – Science</li>
+      <li>11:30 – Arts & Crafts</li>
     </ul>
   </section>
 

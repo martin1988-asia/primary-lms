@@ -1,76 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Primary School LMS - Home</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Asia & Julio Primary LMS</title>
 </head>
-<body class="theme-default">
-  <header class="site-header">
-    <div class="brand">
-      <span class="brand-logo" aria-hidden="true">★</span>
-      <h1 class="brand-title">Welcome to Asia & Julio Primary</h1>
-      <p class="brand-subtitle">Learning Portal</p>
-    </div>
-    <div class="header-meta">
-      <div class="date-card" aria-label="Today">
-        <span class="date-day">Thursday</span>
-        <span class="date-full">11 December 2025</span>
-      </div>
-    </div>
-  </header>
+<body>
+  <h1>Welcome to Asia & Julio Primary</h1>
 
-  <main class="container">
-    <section class="announcement">
-      <h2>Announcements</h2>
-      <ul class="announcement-list">
-        <li><strong>School Fair:</strong> Friday at 12:00 — bring your art projects!</li>
-        <li><strong>Homework Reminder:</strong> Reading log due Monday.</li>
-      </ul>
-    </section>
+  <!-- Announcements -->
+  <section>
+    <h2>Announcements</h2>
+    <ul>
+      <li>School Fair: Friday at 12:00</li>
+      <li>Homework Reminder: Reading log due Monday</li>
+    </ul>
+  </section>
 
-    <section class="menu-grid" aria-label="Main menu">
-      <!-- Corrected Students card -->
-      <a class="menu-card role-student" href="students/math.html">
-        <div class="menu-icon" aria-hidden="true">📚</div>
-        <h3 class="menu-title">Students</h3>
-        <p class="menu-desc">Subjects, homework, games, badges.</p>
-      </a>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="students.html">Students</a></li>
+      <li><a href="teachers.html">Teachers</a></li>
+      <li><a href="parents.html">Parents</a></li>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+  </nav>
 
-      <a class="menu-card role-teacher" href="teachers.html">
-        <div class="menu-icon" aria-hidden="true">🧑‍🏫</div>
-        <h3 class="menu-title">Teachers</h3>
-        <p class="menu-desc">Attendance, lesson plans, grading.</p>
-      </a>
+  <!-- Daily Schedule -->
+  <section>
+    <h2>Today's Schedule</h2>
+    <ul>
+      <li>08:00 - Math</li>
+      <li>09:00 - Reading</li>
+      <li>10:00 - Break</li>
+      <li>10:30 - Science</li>
+      <li>11:30 - Arts & Crafts</li>
+    </ul>
+  </section>
 
-      <a class="menu-card role-parent" href="parents.html">
-        <div class="menu-icon" aria-hidden="true">👨‍👩‍👧</div>
-        <h3 class="menu-title">Parents</h3>
-        <p class="menu-desc">Progress, calendar, messages, fees.</p>
-      </a>
-
-      <a class="menu-card role-admin" href="admin.html">
-        <div class="menu-icon" aria-hidden="true">⚙️</div>
-        <h3 class="menu-title">Admin</h3>
-        <p class="menu-desc">Users, roles, reports, settings.</p>
-      </a>
-    </section>
-
-    <section class="day-overview">
-      <h2>Today’s class schedule</h2>
-      <div class="schedule">
-        <div class="slot"><span class="time">08:00</span> <span class="subject">Math</span></div>
-        <div class="slot"><span class="time">09:00</span> <span class="subject">Reading</span></div>
-        <div class="slot"><span class="time">10:00</span> <span class="subject">Break</span></div>
-        <div class="slot"><span class="time">10:30</span> <span class="subject">Science</span></div>
-        <div class="slot"><span class="time">11:30</span> <span class="subject">Arts & Crafts</span></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School · Made for kids and caregivers</p>
+  <footer>
+    <p>&copy; 2025 Asia & Julio Primary School</p>
   </footer>
 </body>
 </html>

@@ -1,0 +1,38 @@
+[33mb67608e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Add theme toggle script link to all hub pages
+[33m20d71a4[m Add Admin hub with User Management, System Settings, Roles & Permissions, and Reports & Analytics pages
+[33md6d653f[m Add Parents hub with Announcements, Progress Reports, School Calendar, Messages, and Payments pages
+[33med0c314[m Add Teachers hub with Lesson Plans, Grading, Class Management, Reports, Attendance, and Exam Preparation pages
+[33m9d386e0[m Add Achievements hub with Stars, Badges, and Certificates pages
+[33m7c21dfa[m Add Homework hub with Assignments, Uploads, and Feedback pages
+[33m1a11ed4[m Add Games & Activities hub with Board Games, Outdoor Games, and Puzzles pages
+[33m3fbafc7[m Update PE hub with card-based layout and add Warm-ups, PE Games, Exercises pages
+[33m91900dd[m Add Languages hub (English, Spanish, French) and complete Social Studies hub
+[33m90b6c8b[m Add Music hub (singing, instruments, rhythm) and complete Arts hub
+[33m1df3622[m Add Arts hub (drawing, coloring) and complete Math, Science, Reading hubs
+[33mcd43c57[m Add Reading & Writing hub (stories, phonics, spelling) and complete Math & Science hubs
+[33m35e3f5a[m Add Math lesson pages and Science hub with experiments, nature, quizzes
+[33m1d4f922[m Add Math lesson pages (addition, subtraction, multiplication, division)
+[33m446d7f0[m Add addition.html lesson page with card-based layout
+[33ma653b95[m Updated math.html with card-based subject hub
+[33ma172013[m Updated students.html with card-based subject hub
+[33m94b66f6[m Unify announcements and schedule into styled cards
+[33m050dbf4[m Update styles.css with form and dashboard styling
+[33m84fb520[m Update styles.css with form and dashboard styling
+[33mcfad192[m Add login.js and update LMS pages
+[33mf9c8e18[m Add login and register pages
+[33m5bfc74f[m Added subject hub pages with cards and icons; updated navigation
+[33m94dd6b3[m Updated Students hub with Font Awesome icons
+[33m7a2c0c8[m Updated Students hub, navigation, and styles
+[33m07385b0[m Fixed Students hub flow with clean layout
+[33m028a8a8[m Added Students hub page and fixed navigation flow
+[33mde2316f[m Added Students subjects hub page
+[33m60d567a[m Fix Students card link to math.html
+[33m1399db9[m Add Math lessons (Addition, Subtraction, Multiplication, Division)
+[33m42d497a[m Added dark mode toggle to index and students pages
+[33m617d108[m Added dark mode toggle and cleaned footers
+[33m9009e7a[m Removed merge conflict markers and unified footer branding
+[33m3894453[m Resolved conflicts and unified branding on Teachers, Parents, Admin pages
+[33m2f63013[m Cleaned homepage conflicts and unified branding
+[33mc5c0e1a[m Resolved merge conflict and unified Students page branding
+[33m970dae6[m Sync project files from Windows
+[33m41cfd3f[m Initial LMS prototype

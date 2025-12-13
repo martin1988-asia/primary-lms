@@ -1,32 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="login.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LMS Login · Asia & Julio Primary School</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="form-container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="role">Choose Role:</label>
-      <select id="role" name="role" required>
-        <option value="">--Select--</option>
-        <option value="admin">Admin</option>
-        <option value="teacher">Teacher</option>
-        <option value="parent">Parent</option>
-        <option value="student">Student</option>
-      </select>
+  <header class="site-header">
+    <div class="brand">
+      <h1 class="brand-title">Asia & Julio Primary School LMS</h1>
+      <p class="brand-subtitle">Login to continue</p>
+    </div>
+  </header>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password">
+  <main class="container">
+    <section class="card-section">
+      <h2>🔑 Select Your Role</h2>
+      <form id="loginForm" class="login-form">
+        <label for="role">Choose your role:</label>
+        <select id="role" name="role" required>
+          <option value="">-- Select Role --</option>
+          <option value="admin">Admin</option>
+          <option value="teacher">Teacher</option>
+          <option value="parent">Parent</option>
+          <option value="student">Student</option>
+        </select>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+  </main>
 
-      <button type="submit" class="btn-primary">Login</button>
-      <p class="form-footer">
-        Don’t have an account? <a href="register.html">Register here</a>
-      </p>
-    </form>
-  </div>
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("loginForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const role = document.getElementById("role").value;
+        if (!role) {
+          alert("Please select a role.");
+          return;
+        }
+        // Save role in localStorage
+        localStorage.setItem("role", role);
+
+        // Redirect based on role
+        switch (role) {
+          case "admin":
+            window.location.href = "admin.html";
+            break;
+          case "teacher":
+            window.location.href = "teachers.html";
+            break;
+          case "parent":
+            window.location.href = "parents.html";
+            break;
+          case "student":
+            window.location.href = "students.html";
+            break;
+        }
+      });
+    });
+  </script>
 </body>
 </html>

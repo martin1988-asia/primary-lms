@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    // Allow: admin only
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+      alert("Access denied. Admin only.");
+      window.location.href = "login.html";
+    }
+  </script>
 </head>
-<body class="theme-default">
+<body>
   <header class="site-header">
     <div class="brand">
-      <h1 class="brand-title">Admin Dashboard</h1>
-      <p class="brand-subtitle">Manage users, settings, and analytics</p>
+      <h1 class="brand-title">Admin</h1>
+      <p class="brand-subtitle">Control and manage</p>
     </div>
     <div>
       <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
@@ -21,31 +29,14 @@
     <section class="card-section">
       <h2>⚙️ Admin Hub</h2>
       <div class="card-container">
-        <a class="card role-admin" href="usermanagement.html">
-          <h3><i class="fas fa-users-cog"></i> User Management</h3>
-          <p>Create, edit, and manage student, teacher, and parent accounts.</p>
-        </a>
-
-        <a class="card role-admin" href="systemsettings.html">
-          <h3><i class="fas fa-cogs"></i> System Settings</h3>
-          <p>Configure LMS preferences, themes, and technical options.</p>
-        </a>
-
-        <a class="card role-admin" href="roles.html">
-          <h3><i class="fas fa-user-shield"></i> Roles & Permissions</h3>
-          <p>Assign roles and control access permissions across the platform.</p>
-        </a>
-
-        <a class="card role-admin" href="analytics.html">
-          <h3><i class="fas fa-chart-pie"></i> Admin Reports & Analytics</h3>
-          <p>View system usage, performance metrics, and administrative reports.</p>
-        </a>
+        <a class="card role-admin" href="usermanagement.html"><h3>👥 User Management</h3><p>Manage accounts and roles.</p></a>
+        <a class="card role-admin" href="systemsettings.html"><h3>🔧 System Settings</h3><p>Configure LMS preferences.</p></a>
+        <a class="card role-admin" href="roles.html"><h3>🛡️ Roles & Permissions</h3><p>Define access levels.</p></a>
+        <a class="card role-admin" href="analytics.html"><h3>📊 Reports & Analytics</h3><p>View system usage and performance.</p></a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School</p>
-  </footer>
+  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

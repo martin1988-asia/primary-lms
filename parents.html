@@ -5,13 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Parents · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script>
+    // Allow: parent, teacher, admin
+    const role = localStorage.getItem("role");
+    if (!["parent","teacher","admin"].includes(role)) {
+      alert("Access denied. Parents, Teachers, and Admin only.");
+      window.location.href = "login.html";
+    }
+  </script>
 </head>
-<body class="theme-default">
+<body>
   <header class="site-header">
     <div class="brand">
       <h1 class="brand-title">Parents</h1>
-      <p class="brand-subtitle">Support your child with resources and updates</p>
+      <p class="brand-subtitle">Stay connected</p>
     </div>
     <div>
       <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
@@ -20,28 +27,17 @@
 
   <main class="container">
     <section class="card-section">
-      <h2>👨‍👩‍👧 Parent Hub</h2>
+      <h2>👨‍👩‍👧 Parents Hub</h2>
       <div class="card-container">
-        <a class="card role-parent" href="announcements.html">
-          <h3><i class="fas fa-bullhorn"></i> Announcements</h3>
-          <p>Stay updated with school news, notices, and important alerts.</p>
-        </a>
-
-        <a class="card role-parent" href="progress.html">
-          <h3><i class="fas fa-chart-line"></i> Progress Reports</h3>
-          <p>View your child’s grades, badges, and certificates.</p>
-        </a>
-
-        <a class="card role-parent" href="resources.html">
-          <h3><i class="fas fa-hands-helping"></i> Parent Resources</h3>
-          <p>Access guides, tips, and support materials for learning at home.</p>
-        </a>
+        <a class="card role-parent" href="announcements.html"><h3>📢 Announcements</h3><p>School news and updates.</p></a>
+        <a class="card role-parent" href="progress.html"><h3>📈 Progress Reports</h3><p>Track your child’s performance.</p></a>
+        <a class="card role-parent" href="calendar.html"><h3>📅 School Calendar</h3><p>Events and schedules.</p></a>
+        <a class="card role-parent" href="messages.html"><h3>💬 Messages</h3><p>Communicate with teachers.</p></a>
+        <a class="card role-parent" href="payments.html"><h3>💳 Payments</h3><p>Manage school fees.</p></a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School</p>
-  </footer>
+  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

@@ -2,17 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Achievements · Asia & Julio Primary School</title>
+  <title>Achievements · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>Achievements</h1>
-    <a href="students.html">← Back to Students</a>
+    <div class="brand">
+      <h1 class="brand-title">Achievements</h1>
+      <p class="brand-subtitle">Earn stars, badges, and certificates for your progress</p>
+    </div>
+    <div>
+      <a href="students.html" class="menu-card" style="padding:8px 12px;">← Back to Subjects</a>
+    </div>
   </header>
+
   <main class="container">
-    <p>Welcome to Achievements! Earn stars, badges, and certificates for your progress.</p>
+    <section class="card-section">
+      <h2>🏅 Achievement Hub</h2>
+      <div class="card-container">
+        <a class="card role-student" href="stars.html">
+          <h3><i class="fas fa-star"></i> Stars</h3>
+          <p>Collect stars for completing daily tasks and showing effort.</p>
+        </a>
+
+        <a class="card role-student" href="badges.html">
+          <h3><i class="fas fa-medal"></i> Badges</h3>
+          <p>Earn badges for mastering skills and reaching milestones.</p>
+        </a>
+
+        <a class="card role-student" href="certificates.html">
+          <h3><i class="fas fa-certificate"></i> Certificates</h3>
+          <p>Receive certificates for outstanding achievements and projects.</p>
+        </a>
+      </div>
+    </section>
   </main>
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
+
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

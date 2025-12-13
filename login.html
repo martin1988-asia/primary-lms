@@ -48,21 +48,8 @@
         // Save role in localStorage
         localStorage.setItem("role", role);
 
-        // Redirect based on role
-        switch (role) {
-          case "admin":
-            window.location.href = "index.html"; // Admin can access all hubs
-            break;
-          case "teacher":
-            window.location.href = "teachers.html";
-            break;
-          case "parent":
-            window.location.href = "parents.html";
-            break;
-          case "student":
-            window.location.href = "students.html";
-            break;
-        }
+        // Redirect all roles to home
+        window.location.href = "index.html";
       });
     });
   </script>

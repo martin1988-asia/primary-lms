@@ -3,97 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Primary School LMS - Home</title>
+  <title>Home · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="theme-default">
+<body>
   <header class="site-header">
     <div class="brand">
-      <span class="brand-logo" aria-hidden="true">★</span>
-      <h1 class="brand-title">Welcome to Asia & Julio Primary</h1>
-      <p class="brand-subtitle">Learning Portal</p>
-    </div>
-    <div class="header-meta">
-      <div class="date-card" aria-label="Today">
-        <span class="date-day">Thursday</span>
-        <span class="date-full">11 December 2025</span>
-      </div>
+      <h1 class="brand-title">Asia & Julio Primary School LMS</h1>
+      <p class="brand-subtitle">Choose your hub</p>
     </div>
   </header>
 
   <main class="container">
-    <!-- Announcements Section -->
     <section class="card-section">
-      <h2>📢 Announcements</h2>
+      <h2>🏠 Home</h2>
       <div class="card-container">
-        <div class="card">
-          <h3>School Fair</h3>
-          <p>Friday at 12:00 — bring your art projects!</p>
-        </div>
-        <div class="card">
-          <h3>Homework Reminder</h3>
-          <p>Reading log due Monday.</p>
-        </div>
-      </div>
-    </section>
+        <a id="studentsCard" class="card" href="students.html">
+          <h3>👩‍🎓 Students</h3>
+          <p>Learn and play.</p>
+        </a>
 
-    <!-- Main Menu -->
-    <section class="menu-grid" aria-label="Main menu">
-      <a class="menu-card role-student" href="students.html">
-        <div class="menu-icon" aria-hidden="true">📚</div>
-        <h3 class="menu-title">Students</h3>
-        <p class="menu-desc">Subjects, homework, games, badges.</p>
-      </a>
+        <a id="teachersCard" class="card" href="teachers.html">
+          <h3>👨‍🏫 Teachers</h3>
+          <p>Guide and manage.</p>
+        </a>
 
-      <a class="menu-card role-teacher" href="teachers.html">
-        <div class="menu-icon" aria-hidden="true">🧑‍🏫</div>
-        <h3 class="menu-title">Teachers</h3>
-        <p class="menu-desc">Attendance, lesson plans, grading.</p>
-      </a>
+        <a id="parentsCard" class="card" href="parents.html">
+          <h3>👨‍👩‍👧 Parents</h3>
+          <p>Stay connected.</p>
+        </a>
 
-      <a class="menu-card role-parent" href="parents.html">
-        <div class="menu-icon" aria-hidden="true">👨‍👩‍👧</div>
-        <h3 class="menu-title">Parents</h3>
-        <p class="menu-desc">Progress, calendar, messages, fees.</p>
-      </a>
-
-      <a class="menu-card role-admin" href="admin.html">
-        <div class="menu-icon" aria-hidden="true">⚙️</div>
-        <h3 class="menu-title">Admin</h3>
-        <p class="menu-desc">Users, roles, reports, settings.</p>
-      </a>
-    </section>
-
-    <!-- Class Schedule Section -->
-    <section class="card-section">
-      <h2>📅 Today’s Class Schedule</h2>
-      <div class="card-container">
-        <div class="card">
-          <h3>Math</h3>
-          <p>08:00 – 09:00</p>
-        </div>
-        <div class="card">
-          <h3>Reading</h3>
-          <p>09:00 – 10:00</p>
-        </div>
-        <div class="card">
-          <h3>Break</h3>
-          <p>10:00 – 10:30</p>
-        </div>
-        <div class="card">
-          <h3>Science</h3>
-          <p>10:30 – 11:30</p>
-        </div>
-        <div class="card">
-          <h3>Arts & Crafts</h3>
-          <p>11:30 – 12:30</p>
-        </div>
+        <a id="adminCard" class="card" href="admin.html">
+          <h3>⚙️ Admin</h3>
+          <p>Control and manage.</p>
+        </a>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School · Made for kids and caregivers</p>
+    <p>© 2025 Asia & Julio Primary School</p>
+    <button onclick="logout()">Logout</button>
   </footer>
+
+  <script>
+    // Role-based visibility
+    const role = localStorage.getItem("role");
+
+    // Hide all cards first
+    document.getElementById("studentsCard").style.display = "none";
+    document.getElementById("teachersCard").style.display = "none";
+    document.getElementById("parentsCard").style.display = "none";
+    document.getElementById("adminCard").style.display = "none";
+
+    if (role === "admin") {
+      // Admin sees everything
+      document.getElementById("studentsCard").style.display = "block";
+      document.getElementById("teachersCard").style.display = "block";
+      document.getElementById("parentsCard").style.display = "block";
+      document.getElementById("adminCard").style.display = "block";
+    } else if (role === "teacher") {
+      document.getElementById("studentsCard").style.display = "block";
+      document.getElementById("teachersCard").style.display = "block";
+      document.getElementById("parentsCard").style.display = "block";
+    } else if (role === "parent") {
+      document.getElementById("studentsCard").style.display = "block";
+      document.getElementById("parentsCard").style.display = "block";
+    } else if (role === "student") {
+      document.getElementById("studentsCard").style.display = "block";
+    } else {
+      // No role → back to login
+      window.location.href = "login.html";
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem("role");
+      window.location.href = "login.html";
+    }
+  </script>
 </body>
 </html>

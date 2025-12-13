@@ -22,20 +22,22 @@
   </header>
 
   <main class="container">
-    <section class="announcement">
-      <h2>Announcements</h2>
-      <ul class="announcement-list">
-        <li><strong>School Fair:</strong> Friday at 12:00 — bring your art projects!</li>
-        <li><strong>Homework Reminder:</strong> Reading log due Monday.</li>
-      </ul>
+    <!-- Announcements Section -->
+    <section class="card-section">
+      <h2>📢 Announcements</h2>
+      <div class="card-container">
+        <div class="card">
+          <h3>School Fair</h3>
+          <p>Friday at 12:00 — bring your art projects!</p>
+        </div>
+        <div class="card">
+          <h3>Homework Reminder</h3>
+          <p>Reading log due Monday.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- NEW LOGIN/REGISTER BUTTONS -->
-    <section class="auth-buttons">
-      <a href="login.html" class="btn">Login</a>
-      <a href="register.html" class="btn">Register</a>
-    </section>
-
+    <!-- Main Menu -->
     <section class="menu-grid" aria-label="Main menu">
       <a class="menu-card role-student" href="students.html">
         <div class="menu-icon" aria-hidden="true">📚</div>
@@ -62,14 +64,30 @@
       </a>
     </section>
 
-    <section class="day-overview">
-      <h2>Today’s class schedule</h2>
-      <div class="schedule">
-        <div class="slot"><span class="time">08:00</span> <span class="subject">Math</span></div>
-        <div class="slot"><span class="time">09:00</span> <span class="subject">Reading</span></div>
-        <div class="slot"><span class="time">10:00</span> <span class="subject">Break</span></div>
-        <div class="slot"><span class="time">10:30</span> <span class="subject">Science</span></div>
-        <div class="slot"><span class="time">11:30</span> <span class="subject">Arts & Crafts</span></div>
+    <!-- Class Schedule Section -->
+    <section class="card-section">
+      <h2>📅 Today’s Class Schedule</h2>
+      <div class="card-container">
+        <div class="card">
+          <h3>Math</h3>
+          <p>08:00 – 09:00</p>
+        </div>
+        <div class="card">
+          <h3>Reading</h3>
+          <p>09:00 – 10:00</p>
+        </div>
+        <div class="card">
+          <h3>Break</h3>
+          <p>10:00 – 10:30</p>
+        </div>
+        <div class="card">
+          <h3>Science</h3>
+          <p>10:30 – 11:30</p>
+        </div>
+        <div class="card">
+          <h3>Arts & Crafts</h3>
+          <p>11:30 – 12:30</p>
+        </div>
       </div>
     </section>
   </main>

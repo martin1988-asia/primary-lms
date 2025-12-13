@@ -153,33 +153,55 @@ body {
 }
 
 /* =========================================
-   Announcement panel
+   Unified Card Sections (Announcements + Schedule)
    ========================================= */
-.announcement {
-  background: var(--color-accent-soft);
-  border: 1px solid var(--color-border);
-  border-left: 6px solid var(--color-accent);
-  border-radius: var(--radius-sm);
-  padding: var(--space-4);
-  margin: var(--space-4) auto;
+.card-section {
+  margin: var(--space-5) auto;
   max-width: 1000px;
+  text-align: center;
 }
 
-.announcement h2 {
-  margin: 0 0 var(--space-2);
+.card-section h2 {
+  margin-bottom: var(--space-3);
   font-size: var(--font-size-lg);
+  color: var(--color-primary-dark);
 }
 
-.announcement-list {
-  list-style: none;
-  padding: 0;
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.card {
+  background: var(--color-panel);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  width: 220px;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+  border-color: var(--color-primary);
+}
+
+.card h3 {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.card p {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
   margin: 0;
 }
-.announcement-list li {
-  padding: 8px 0;
-  border-top: 1px dashed #e9c556;
-}
-.announcement-list li:first-child { border-top: none; }
 
 /* =========================================
    Menu grid and cards
@@ -235,49 +257,6 @@ body {
 .role-admin   { border-top: 4px solid #f39c12; }   /* orange */
 
 /* =========================================
-   Day overview / schedule
-   ========================================= */
-.day-overview {
-  margin: var(--space-5) auto;
-  max-width: 1000px;
-  background: #e3f2fd;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-4);
-}
-
-.day-overview h2 {
-  margin: 0 0 var(--space-3);
-  font-size: var(--font-size-lg);
-}
-
-.schedule {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.slot {
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.time {
-  font-weight: 700;
-  color: var(--color-primary-dark);
-  min-width: 64px;
-}
-
-.subject {
-  color: var(--color-text);
-}
-
-/* =========================================
    Footer
    ========================================= */
 .site-footer {
@@ -303,25 +282,3 @@ body {
 /* =========================================
    Responsive tweaks
    ========================================= */
-@media (max-width: 720px) {
-  .brand-title { font-size: 1.5rem; }
-  .brand-logo { width: 36px; height: 36px; }
-  .site-header { padding: var(--space-3); }
-  .menu-grid { gap: var(--space-3); margin: var(--space-4) auto; }
-  .day-overview { margin: var(--space-4) auto; padding: var(--space-3); }
-}
-
-/* =========================================
-   Dark theme (optional)
-   Add class "theme-dark" to <body> to enable
-   ========================================= */
-.theme-dark {
-  --color-bg: #12161d;
-  --color-text: #e7eaf0;
-  --color-muted: #b6bfd2;
-  --color-border: #253043;
-  --color-panel: #1c2230;
-  --color-primary: #3b78bf;
-  --color-primary-dark: #315f98;
-  --color-accent-soft: #2b2a14;
-}

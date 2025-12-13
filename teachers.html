@@ -2,46 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teachers · Asia & Julio Primary LMS</title>
+  <title>Teachers · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="theme-default">
+<body>
   <header class="site-header">
     <div class="brand">
-      <h1 class="brand-title">Teacher Dashboard</h1>
-      <p class="brand-subtitle">Manage Classes</p>
+      <h1 class="brand-title">Teachers</h1>
+      <p class="brand-subtitle">Resources, planning, and classroom management</p>
     </div>
-    <nav>
-      <a href="index.html" class="btn">← Back to Home</a>
-      <a href="students.html" class="btn">Students</a>
-      <a href="parents.html" class="btn">Parents</a>
-      <!-- Teachers cannot access Admin, so no Admin link here -->
-    </nav>
+    <div>
+      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
+    </div>
   </header>
 
   <main class="container">
-    <section class="menu-grid">
-      <a class="menu-card role-teacher" href="#">
-        <div class="menu-icon">📋</div>
-        <h3 class="menu-title">Class Management</h3>
-        <p class="menu-desc">Attendance and roster.</p>
-      </a>
-      <a class="menu-card role-teacher" href="#">
-        <div class="menu-icon">🧑‍🏫</div>
-        <h3 class="menu-title">Lesson Plans</h3>
-        <p class="menu-desc">Plan and share resources.</p>
-      </a>
-      <a class="menu-card role-teacher" href="#">
-        <div class="menu-icon">📝</div>
-        <h3 class="menu-title">Assignments & Quizzes</h3>
-        <p class="menu-desc">Create, assign, grade.</p>
-      </a>
-      <a class="menu-card role-teacher" href="#">
-        <div class="menu-icon">📊</div>
-        <h3 class="menu-title">Reports</h3>
-        <p class="menu-desc">Progress summaries.</p>
-      </a>
+    <section class="card-section">
+      <h2>👩‍🏫 Teacher Hub</h2>
+      <div class="card-container">
+        <a class="card role-teacher" href="lessonplans.html">
+          <h3><i class="fas fa-book"></i> Lesson Plans</h3>
+          <p>Prepare and organize daily and weekly lessons.</p>
+        </a>
+
+        <a class="card role-teacher" href="grading.html">
+          <h3><i class="fas fa-clipboard-check"></i> Grading</h3>
+          <p>Record, review, and manage student performance.</p>
+        </a>
+
+        <a class="card role-teacher" href="classmanagement.html">
+          <h3><i class="fas fa-chalkboard-teacher"></i> Class Management</h3>
+          <p>Organize classroom activities and maintain discipline.</p>
+        </a>
+
+        <a class="card role-teacher" href="reports.html">
+          <h3><i class="fas fa-file-alt"></i> Reports</h3>
+          <p>Generate and share student progress reports.</p>
+        </a>
+
+        <a class="card role-teacher" href="attendance.html">
+          <h3><i class="fas fa-user-check"></i> Attendance Register</h3>
+          <p>Track daily student attendance and participation.</p>
+        </a>
+
+        <a class="card role-teacher" href="examprep.html">
+          <h3><i class="fas fa-pencil-alt"></i> Exam Preparation</h3>
+          <p>Plan revision sessions and prepare students for exams.</p>
+        </a>
+      </div>
     </section>
   </main>
 

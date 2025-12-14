@@ -5,25 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Students · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    #announcementBadge {
+      background: red; color: white;
+      border-radius: 50%; padding: 4px 8px;
+      font-size: 0.9rem; margin-left: 8px;
+    }
+    .announcement {
+      border: 1px solid #ccc; background: #f9f9f9;
+      padding: 10px; margin: 5px 0; cursor: pointer;
+      border-radius: 6px; transition: background 0.3s ease;
+    }
+    .announcement.unread {
+      border-color: red; background: #ffecec; font-weight: bold;
+    }
+    .announcement:hover { background: #e6f0ff; }
+  </style>
   <script>
-    // Display announcements from Teachers only
-    function loadTeacherAnnouncements() {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const list = document.getElementById("teacherAnnouncements");
-      list.innerHTML = "";
+    const role = localStorage.getItem("role");
+    if (role !== "student") {
+      alert("Access denied. Students only.");
+      window.location.href = "login.html";
+    }
 
-      announcements.forEach(a => {
-        if (a.role === "teacher") {
-          list.innerHTML += `
-            <div class="announcement">
-              <strong>Teacher:</strong> ${a.message} 
-              <em style="font-size:0.9em;color:#666;">${a.time}</em>
-            </div>`;
-        }
+    function loadAnnouncements() {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const list = document.getElementById("announcementList");
+      const badge = document.getElementById("announcementBadge");
+
+      // Students see teacher + admin announcements
+      const relevant = announcements.filter(a => a.role === "teacher" || a.role === "admin");
+      const unread = relevant.filter(a => !a.read);
+      badge.innerText = unread.length;
+
+      list.innerHTML = "";
+      relevant.forEach((a, index) => {
+        const isUnread = !a.read;
+        const div = document.createElement("div");
+        div.className = "announcement" + (isUnread ? " unread" : "");
+        div.innerHTML = `<strong>${a.role}:</strong> ${isUnread ? "(New) " : ""}${a.message}
+                         <em style="float:right">${a.time}</em>`;
+        div.onclick = () => markAsRead(index);
+        list.appendChild(div);
       });
     }
 
-    document.addEventListener("DOMContentLoaded", loadTeacherAnnouncements);
+    function markAsRead(index) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      if (announcements[index]) {
+        announcements[index].read = true;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+        loadAnnouncements();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAnnouncements);
   </script>
 </head>
 <body>
@@ -32,71 +68,21 @@
       <h1 class="brand-title">Students</h1>
       <p class="brand-subtitle">Learn and play</p>
     </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <div><a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a></div>
   </header>
 
   <main class="container">
-    <section class="menu-grid">
-      <a class="menu-card role-student" href="math.html">
-        <div class="menu-icon">🔢</div>
-        <h3 class="menu-title">Math</h3>
-        <p class="menu-desc">Numbers, shapes, practice.</p>
-      </a>
-
-      <a class="menu-card role-student" href="reading.html">
-        <div class="menu-icon">📖</div>
-        <h3 class="menu-title">Reading & Writing</h3>
-        <p class="menu-desc">Stories, phonics, spelling.</p>
-      </a>
-
-      <a class="menu-card role-student" href="science.html">
-        <div class="menu-icon">🔬</div>
-        <h3 class="menu-title">Science</h3>
-        <p class="menu-desc">Experiments, nature, quizzes.</p>
-      </a>
-
-      <a class="menu-card role-student" href="arts.html">
-        <div class="menu-icon">🎨</div>
-        <h3 class="menu-title">Arts & Crafts</h3>
-        <p class="menu-desc">Draw, color, create.</p>
-      </a>
-
-      <a class="menu-card role-student" href="pe.html">
-        <div class="menu-icon">🏃</div>
-        <h3 class="menu-title">Physical Education</h3>
-        <p class="menu-desc">Movement, games, health.</p>
-      </a>
-
-      <a class="menu-card role-student" href="games.html">
-        <div class="menu-icon">🎮</div>
-        <h3 class="menu-title">Games & Activities</h3>
-        <p class="menu-desc">Puzzles and mini-games.</p>
-      </a>
-
-      <a class="menu-card role-student" href="homework.html">
-        <div class="menu-icon">📝</div>
-        <h3 class="menu-title">Homework</h3>
-        <p class="menu-desc">Assignments and uploads.</p>
-      </a>
-
-      <a class="menu-card role-student" href="achievements.html">
-        <div class="menu-icon">🏆</div>
-        <h3 class="menu-title">Achievements</h3>
-        <p class="menu-desc">Stars and badges.</p>
-      </a>
+    <section class="card-section">
+      <h2>📘 Students Hub</h2>
+      <p>Welcome to your learning space!</p>
     </section>
 
-    <!-- Announcement Section -->
     <section class="card-section">
-      <h2>📢 Announcements from Teachers</h2>
-      <div id="teacherAnnouncements" class="announcement-list"></div>
+      <h2>📢 Announcements <span id="announcementBadge">0</span></h2>
+      <div id="announcementList"></div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School</p>
-  </footer>
+  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

@@ -5,32 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Parents · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    #announcementBadge {
+      background: red; color: white;
+      border-radius: 50%; padding: 4px 8px;
+      font-size: 0.9rem; margin-left: 8px;
+    }
+    .announcement {
+      border: 1px solid #ccc; background: #f9f9f9;
+      padding: 10px; margin: 5px 0; cursor: pointer;
+      border-radius: 6px; transition: background 0.3s ease;
+    }
+    .announcement.unread {
+      border-color: red; background: #ffecec; font-weight: bold;
+    }
+    .announcement:hover { background: #e6f0ff; }
+  </style>
   <script>
-    // Allow: parent, teacher, admin
     const role = localStorage.getItem("role");
-    if (!["parent","teacher","admin"].includes(role)) {
-      alert("Access denied. Parents, Teachers, and Admin only.");
+    if (role !== "parent") {
+      alert("Access denied. Parents only.");
       window.location.href = "login.html";
     }
 
-    // Announcement display logic
-    function loadTeacherAnnouncements() {
+    function loadAnnouncements() {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const list = document.getElementById("teacherAnnouncements");
-      list.innerHTML = "";
+      const list = document.getElementById("announcementList");
+      const badge = document.getElementById("announcementBadge");
 
-      announcements.forEach(a => {
-        if (a.role === "teacher") {
-          list.innerHTML += `
-            <div class="announcement">
-              <strong>Teacher:</strong> ${a.message} 
-              <em style="font-size:0.9em;color:#666;">${a.time}</em>
-            </div>`;
-        }
+      // Parents see teacher + admin announcements
+      const relevant = announcements.filter(a => a.role === "teacher" || a.role === "admin");
+      const unread = relevant.filter(a => !a.read);
+      badge.innerText = unread.length;
+
+      list.innerHTML = "";
+      relevant.forEach((a, index) => {
+        const isUnread = !a.read;
+        const div = document.createElement("div");
+        div.className = "announcement" + (isUnread ? " unread" : "");
+        div.innerHTML = `<strong>${a.role}:</strong> ${isUnread ? "(New) " : ""}${a.message}
+                         <em style="float:right">${a.time}</em>`;
+        div.onclick = () => markAsRead(index);
+        list.appendChild(div);
       });
     }
 
-    document.addEventListener("DOMContentLoaded", loadTeacherAnnouncements);
+    function markAsRead(index) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      if (announcements[index]) {
+        announcements[index].read = true;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+        loadAnnouncements();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAnnouncements);
   </script>
 </head>
 <body>
@@ -39,32 +68,21 @@
       <h1 class="brand-title">Parents</h1>
       <p class="brand-subtitle">Stay connected</p>
     </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <div><a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a></div>
   </header>
 
   <main class="container">
     <section class="card-section">
       <h2>👨‍👩‍👧 Parents Hub</h2>
-      <div class="card-container">
-        <a class="card role-parent" href="announcements.html"><h3>📢 Announcements</h3><p>School news and updates.</p></a>
-        <a class="card role-parent" href="progress.html"><h3>📈 Progress Reports</h3><p>Track your child’s performance.</p></a>
-        <a class="card role-parent" href="calendar.html"><h3>📅 School Calendar</h3><p>Events and schedules.</p></a>
-        <a class="card role-parent" href="messages.html"><h3>💬 Messages</h3><p>Communicate with teachers.</p></a>
-        <a class="card role-parent" href="payments.html"><h3>💳 Payments</h3><p>Manage school fees.</p></a>
-      </div>
+      <p>Welcome to your parent dashboard!</p>
     </section>
 
-    <!-- New Announcement Section -->
     <section class="card-section">
-      <h2>📢 Announcements from Teachers</h2>
-      <div id="teacherAnnouncements" class="announcement-list"></div>
+      <h2>📢 Announcements <span id="announcementBadge">0</span></h2>
+      <div id="announcementList"></div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School</p>
-  </footer>
+  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

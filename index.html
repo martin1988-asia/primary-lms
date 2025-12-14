@@ -6,11 +6,24 @@
   <title>Home · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
+    /* Banner styling */
     #welcomeBanner {
-      font-size: 1.2rem;
+      background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+      color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.4rem;
       font-weight: bold;
-      margin-top: 0.5rem;
-      color: #2575fc;
+      margin: 1rem auto;
+      width: 90%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -19,10 +32,11 @@
     <div class="brand">
       <h1 class="brand-title">Asia & Julio Primary School LMS</h1>
       <p class="brand-subtitle">Choose your hub</p>
-      <!-- Personalized welcome banner -->
-      <div id="welcomeBanner"></div>
     </div>
   </header>
+
+  <!-- Personalized welcome banner appears here -->
+  <div id="welcomeBanner"></div>
 
   <main class="container">
     <section class="card-section">
@@ -86,10 +100,10 @@
       window.location.href = "login.html";
     }
 
-    // Show personalized banner
+    // Show personalized banner beautifully
     if (role) {
       document.getElementById("welcomeBanner").innerText =
-        "Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "!";
+        "🎉 Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "! 🎉";
     }
 
     // Logout function

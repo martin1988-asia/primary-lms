@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teachers · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Announcement styles */
+    #announcementBadge {
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 8px;
+      font-size: 0.9rem;
+      margin-left: 8px;
+    }
+    .announcement {
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      padding: 10px;
+      margin: 5px 0;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    .announcement.unread {
+      border-color: red;
+      background: #ffecec;
+      font-weight: bold;
+    }
+    .announcement:hover {
+      background: #e6f0ff;
+    }
+  </style>
   <script>
     // Allow: teacher, admin
     const role = localStorage.getItem("role");
@@ -21,25 +49,47 @@
         return;
       }
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      announcements.push({ role: "teacher", message, time: new Date().toLocaleString() });
+      announcements.push({ role: "teacher", message, time: new Date().toLocaleString(), read: false });
       localStorage.setItem("announcements", JSON.stringify(announcements));
       document.getElementById("teacherMessage").value = "";
       alert("Announcement sent to Students & Parents.");
+      loadAnnouncements();
     }
 
-    function loadAdminAnnouncements() {
+    function loadAnnouncements() {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const list = document.getElementById("adminAnnouncements");
-      list.innerHTML = "";
+      const list = document.getElementById("announcementList");
+      const badge = document.getElementById("announcementBadge");
 
-      announcements.forEach(a => {
-        if (a.role === "admin") {
-          list.innerHTML += `<div class="announcement"><strong>Admin:</strong> ${a.message} <em>${a.time}</em></div>`;
-        }
+      // Filter announcements relevant for teacher/admin
+      const relevant = announcements.filter(a => a.role === "admin" || a.role === "teacher");
+
+      // Count unread
+      const unread = relevant.filter(a => !a.read);
+      badge.innerText = unread.length;
+
+      list.innerHTML = "";
+      relevant.forEach((a, index) => {
+        const isUnread = !a.read;
+        const div = document.createElement("div");
+        div.className = "announcement" + (isUnread ? " unread" : "");
+        div.innerHTML = `<strong>${a.role}:</strong> ${isUnread ? "(New) " : ""}${a.message}
+                         <em style="float:right">${a.time}</em>`;
+        div.onclick = () => markAsRead(index);
+        list.appendChild(div);
       });
     }
 
-    document.addEventListener("DOMContentLoaded", loadAdminAnnouncements);
+    function markAsRead(index) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      if (announcements[index]) {
+        announcements[index].read = true;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+        loadAnnouncements();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAnnouncements);
   </script>
 </head>
 <body>
@@ -65,10 +115,10 @@
       </div>
     </section>
 
-    <!-- New Announcement Section -->
+    <!-- Announcement Section -->
     <section class="card-section">
-      <h2>📢 Announcements from Admin</h2>
-      <div id="adminAnnouncements"></div>
+      <h2>📢 Announcements <span id="announcementBadge">0</span></h2>
+      <div id="announcementList"></div>
     </section>
 
     <section class="card-section">

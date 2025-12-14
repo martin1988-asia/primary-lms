@@ -6,87 +6,119 @@
   <title>Teachers · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Announcement styles */
     #announcementBadge {
-      background: red;
-      color: white;
-      border-radius: 50%;
-      padding: 4px 8px;
-      font-size: 0.9rem;
-      margin-left: 8px;
+      background: red; color: white;
+      border-radius: 50%; padding: 4px 8px;
+      font-size: 0.9rem; margin-left: 8px;
     }
     .announcement {
-      border: 1px solid #ccc;
-      background: #f9f9f9;
-      padding: 10px;
-      margin: 5px 0;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.3s ease;
+      border: 1px solid #ccc; background: #f9f9f9;
+      padding: 10px; margin: 5px 0; cursor: pointer;
+      border-radius: 6px; transition: background 0.3s ease;
     }
     .announcement.unread {
-      border-color: red;
-      background: #ffecec;
-      font-weight: bold;
+      border-color: red; background: #ffecec; font-weight: bold;
     }
-    .announcement:hover {
-      background: #e6f0ff;
-    }
+    .announcement:hover { background: #e6f0ff; }
   </style>
   <script>
-    // Allow: teacher, admin
+    // Access control: allow teacher, admin
     const role = localStorage.getItem("role");
     if (!["teacher","admin"].includes(role)) {
       alert("Access denied. Teachers and Admin only.");
       window.location.href = "login.html";
     }
 
-    // Announcement logic
+    // Helper: save announcement with audience routing
+    function saveAnnouncement({ senderRole, audience, message }) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const id = Date.now(); // simple unique id
+      announcements.push({
+        id,
+        role: senderRole,          // legacy sender
+        audience,                  // array of target roles, e.g., ["teacher"]
+        message,
+        time: new Date().toLocaleString(),
+        readBy: []                 // list of roles who have read it
+      });
+      localStorage.setItem("announcements", JSON.stringify(announcements));
+    }
+
+    // Helper: get announcements relevant to current role (with legacy fallback)
+    function getRelevantAnnouncements(currentRole) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      return announcements.filter(a => {
+        if (Array.isArray(a.audience) && a.audience.length) {
+          return a.audience.includes(currentRole);
+        }
+        // Legacy fallback (older messages without 'audience'):
+        // - Teachers see admin messages by default
+        if (currentRole === "teacher") return a.role === "admin";
+        // - Students/Parents see teacher & admin (handled in their hubs)
+        // - Admin sees everything (handled in admin hub)
+        return false;
+      });
+    }
+
+    // Helper: check unread status per role
+    function isUnreadForRole(a, currentRole) {
+      return !(Array.isArray(a.readBy) && a.readBy.includes(currentRole));
+    }
+
+    // Mark as read for current role using id
+    function markAsReadById(id, currentRole) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const idx = announcements.findIndex(a => a.id === id);
+      if (idx !== -1) {
+        const readBy = Array.isArray(announcements[idx].readBy) ? announcements[idx].readBy : [];
+        if (!readBy.includes(currentRole)) readBy.push(currentRole);
+        announcements[idx].readBy = readBy;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+      }
+      loadAnnouncements(); // refresh
+    }
+
+    // Send announcement (Teacher -> Students & Parents)
     function postTeacherAnnouncement() {
       const message = document.getElementById("teacherMessage").value.trim();
       if (!message) {
         alert("Please enter a message before sending.");
         return;
       }
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      announcements.push({ role: "teacher", message, time: new Date().toLocaleString(), read: false });
-      localStorage.setItem("announcements", JSON.stringify(announcements));
+      saveAnnouncement({
+        senderRole: "teacher",
+        audience: ["student", "parent"],
+        message
+      });
       document.getElementById("teacherMessage").value = "";
       alert("Announcement sent to Students & Parents.");
       loadAnnouncements();
     }
 
+    // Load announcements for teacher/admin audience
     function loadAnnouncements() {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
       const list = document.getElementById("announcementList");
       const badge = document.getElementById("announcementBadge");
+      const relevant = getRelevantAnnouncements(role);
 
-      // Filter announcements relevant for teacher/admin
-      const relevant = announcements.filter(a => a.role === "admin" || a.role === "teacher");
-
-      // Count unread
-      const unread = relevant.filter(a => !a.read);
-      badge.innerText = unread.length;
+      const unreadCount = relevant.filter(a => isUnreadForRole(a, role)).length;
+      badge.innerText = unreadCount;
 
       list.innerHTML = "";
-      relevant.forEach((a, index) => {
-        const isUnread = !a.read;
-        const div = document.createElement("div");
-        div.className = "announcement" + (isUnread ? " unread" : "");
-        div.innerHTML = `<strong>${a.role}:</strong> ${isUnread ? "(New) " : ""}${a.message}
-                         <em style="float:right">${a.time}</em>`;
-        div.onclick = () => markAsRead(index);
-        list.appendChild(div);
-      });
-    }
-
-    function markAsRead(index) {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      if (announcements[index]) {
-        announcements[index].read = true;
-        localStorage.setItem("announcements", JSON.stringify(announcements));
-        loadAnnouncements();
-      }
+      relevant
+        .sort((a, b) => b.id - a.id)
+        .forEach(a => {
+          const unread = isUnreadForRole(a, role);
+          const div = document.createElement("div");
+          div.className = "announcement" + (unread ? " unread" : "");
+          const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
+          div.innerHTML = `
+            <strong>${senderLabel}:</strong> ${unread ? "(New) " : ""}${a.message}
+            <em style="float:right">${a.time}</em>
+          `;
+          div.onclick = () => markAsReadById(a.id, role);
+          list.appendChild(div);
+        });
     }
 
     document.addEventListener("DOMContentLoaded", loadAnnouncements);
@@ -115,7 +147,6 @@
       </div>
     </section>
 
-    <!-- Announcement Section -->
     <section class="card-section">
       <h2>📢 Announcements <span id="announcementBadge">0</span></h2>
       <div id="announcementList"></div>

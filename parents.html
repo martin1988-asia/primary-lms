@@ -6,20 +6,10 @@
   <title>Parents · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    #announcementBadge {
-      background: red; color: white;
-      border-radius: 50%; padding: 4px 8px;
-      font-size: 0.9rem; margin-left: 8px;
-    }
-    .announcement {
-      border: 1px solid #ccc; background: #f9f9f9;
-      padding: 10px; margin: 5px 0; cursor: pointer;
-      border-radius: 6px; transition: background 0.3s ease;
-    }
-    .announcement.unread {
-      border-color: red; background: #ffecec; font-weight: bold;
-    }
-    .announcement:hover { background: #e6f0ff; }
+    #announcementBadge { background:red;color:white;border-radius:50%;padding:4px 8px;font-size:0.9rem;margin-left:8px; }
+    .announcement { border:1px solid #ccc;background:#f9f9f9;padding:10px;margin:5px 0;cursor:pointer;border-radius:6px;transition:background 0.3s ease; }
+    .announcement.unread { border-color:red;background:#ffecec;font-weight:bold; }
+    .announcement:hover { background:#e6f0ff; }
   </style>
   <script>
     const role = localStorage.getItem("role");
@@ -28,35 +18,54 @@
       window.location.href = "login.html";
     }
 
-    function loadAnnouncements() {
+    function getRelevantAnnouncements(currentRole) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const list = document.getElementById("announcementList");
-      const badge = document.getElementById("announcementBadge");
-
-      // Parents see teacher + admin announcements
-      const relevant = announcements.filter(a => a.role === "teacher" || a.role === "admin");
-      const unread = relevant.filter(a => !a.read);
-      badge.innerText = unread.length;
-
-      list.innerHTML = "";
-      relevant.forEach((a, index) => {
-        const isUnread = !a.read;
-        const div = document.createElement("div");
-        div.className = "announcement" + (isUnread ? " unread" : "");
-        div.innerHTML = `<strong>${a.role}:</strong> ${isUnread ? "(New) " : ""}${a.message}
-                         <em style="float:right">${a.time}</em>`;
-        div.onclick = () => markAsRead(index);
-        list.appendChild(div);
+      return announcements.filter(a => {
+        if (Array.isArray(a.audience) && a.audience.length) return a.audience.includes(currentRole);
+        // Legacy fallback: parents used to see teacher+admin
+        return a.role === "teacher" || a.role === "admin";
       });
     }
 
-    function markAsRead(index) {
+    function isUnreadForRole(a, currentRole) {
+      return !(Array.isArray(a.readBy) && a.readBy.includes(currentRole));
+    }
+
+    function markAsReadById(id, currentRole) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      if (announcements[index]) {
-        announcements[index].read = true;
+      const idx = announcements.findIndex(a => a.id === id);
+      if (idx !== -1) {
+        const readBy = Array.isArray(announcements[idx].readBy) ? announcements[idx].readBy : [];
+        if (!readBy.includes(currentRole)) readBy.push(currentRole);
+        announcements[idx].readBy = readBy;
         localStorage.setItem("announcements", JSON.stringify(announcements));
-        loadAnnouncements();
       }
+      loadAnnouncements();
+    }
+
+    function loadAnnouncements() {
+      const list = document.getElementById("announcementList");
+      const badge = document.getElementById("announcementBadge");
+      const relevant = getRelevantAnnouncements(role);
+
+      const unreadCount = relevant.filter(a => isUnreadForRole(a, role)).length;
+      badge.innerText = unreadCount;
+
+      list.innerHTML = "";
+      relevant
+        .sort((a, b) => b.id - a.id)
+        .forEach(a => {
+          const unread = isUnreadForRole(a, role);
+          const div = document.createElement("div");
+          div.className = "announcement" + (unread ? " unread" : "");
+          const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
+          div.innerHTML = `
+            <strong>${senderLabel}:</strong> ${unread ? "(New) " : ""}${a.message}
+            <em style="float:right">${a.time}</em>
+          `;
+          div.onclick = () => markAsReadById(a.id, role);
+          list.appendChild(div);
+        });
     }
 
     document.addEventListener("DOMContentLoaded", loadAnnouncements);

@@ -95,8 +95,16 @@
       e.preventDefault();
       const role = document.getElementById("role").value;
 
+      if (!role) {
+        alert("Please select a role.");
+        return;
+      }
+
       // Save role for hub access checks
       localStorage.setItem("role", role);
+
+      // Show friendly welcome message before redirect
+      alert("Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "! 🎉");
 
       if (role === "admin") {
         window.location.href = "admin.html";
@@ -106,8 +114,6 @@
         window.location.href = "students.html";
       } else if (role === "parent") {
         window.location.href = "parents.html";
-      } else {
-        alert("Please select a role.");
       }
     });
   </script>

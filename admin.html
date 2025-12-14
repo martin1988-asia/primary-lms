@@ -5,27 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Notification styles */
+    .notification {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-left: 20px;
+    }
+    .notification .badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .dropdown .announcement {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .dropdown .announcement.unread {
+      background: #ffecec;
+      font-weight: bold;
+    }
+    .dropdown .announcement:hover {
+      background: #f0f8ff;
+    }
+  </style>
   <script>
-    // Allow: admin only
     const role = localStorage.getItem("role");
     if (role !== "admin") {
       alert("Access denied. Admin only.");
       window.location.href = "login.html";
     }
 
-    // Announcement posting logic
-    function postAdminAnnouncement() {
-      const message = document.getElementById("adminMessage").value.trim();
-      if (!message) {
-        alert("Please enter a message before sending.");
-        return;
-      }
+    // Save announcement with audience routing
+    function saveAnnouncement({ senderRole, audience, message }) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      announcements.push({ role: "admin", message, time: new Date().toLocaleString() });
+      const id = Date.now();
+      announcements.push({
+        id,
+        role: senderRole,
+        audience, // array of target roles
+        message,
+        time: new Date().toLocaleString(),
+        readBy: []
+      });
       localStorage.setItem("announcements", JSON.stringify(announcements));
-      document.getElementById("adminMessage").value = "";
-      alert("Announcement sent to Teachers.");
+      alert("Announcement sent.");
+      loadNotifications();
     }
+
+    // Admin send functions
+    function postAdminToTeachers() {
+      const msg = document.getElementById("adminMessageTeachers").value.trim();
+      if (!msg) return alert("Enter a message.");
+      saveAnnouncement({ senderRole: "admin", audience: ["teacher"], message: msg });
+      document.getElementById("adminMessageTeachers").value = "";
+    }
+
+    function postAdminToStudentsParents() {
+      const msg = document.getElementById("adminMessageSP").value.trim();
+      if (!msg) return alert("Enter a message.");
+      saveAnnouncement({ senderRole: "admin", audience: ["student","parent"], message: msg });
+      document.getElementById("adminMessageSP").value = "";
+    }
+
+    function postAdminToAll() {
+      const msg = document.getElementById("adminMessageAll").value.trim();
+      if (!msg) return alert("Enter a message.");
+      saveAnnouncement({ senderRole: "admin", audience: ["teacher","student","parent"], message: msg });
+      document.getElementById("adminMessageAll").value = "";
+    }
+
+    // Helpers for displaying announcements
+    function getRelevantAnnouncements(currentRole) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      return announcements.filter(a => {
+        if (Array.isArray(a.audience) && a.audience.length) return a.audience.includes(currentRole);
+        return true; // Admin sees all
+      });
+    }
+
+    function isUnreadForRole(a, currentRole) {
+      return !(Array.isArray(a.readBy) && a.readBy.includes(currentRole));
+    }
+
+    function markAsReadById(id, currentRole) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const idx = announcements.findIndex(a => a.id === id);
+      if (idx !== -1) {
+        const readBy = Array.isArray(announcements[idx].readBy) ? announcements[idx].readBy : [];
+        if (!readBy.includes(currentRole)) readBy.push(currentRole);
+        announcements[idx].readBy = readBy;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+      }
+      loadNotifications();
+    }
+
+    function loadNotifications() {
+      const relevant = getRelevantAnnouncements(role);
+      const unread = relevant.filter(a => isUnreadForRole(a, role));
+      document.getElementById("badge").innerText = unread.length;
+
+      const dropdown = document.getElementById("dropdown");
+      dropdown.innerHTML = "";
+      relevant
+        .sort((a, b) => b.id - a.id)
+        .forEach(a => {
+          if (isUnreadForRole(a, role)) {
+            const div = document.createElement("div");
+            div.className = "announcement unread";
+            const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
+            div.innerHTML = `<strong>${senderLabel}:</strong> ${a.message}
+                             <em style="float:right">${a.time}</em>`;
+            div.onclick = () => markAsReadById(a.id, role);
+            dropdown.appendChild(div);
+          }
+        });
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", loadNotifications);
   </script>
 </head>
 <body>
@@ -36,26 +158,40 @@
     </div>
     <div>
       <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
+      <!-- Notification icon -->
+      <div class="notification" onclick="toggleDropdown()">
+        📩 <span id="badge" class="badge">0</span>
+        <div id="dropdown" class="dropdown"></div>
+      </div>
     </div>
   </header>
 
   <main class="container">
     <section class="card-section">
       <h2>⚙️ Admin Hub</h2>
-      <div class="card-container">
-        <a class="card role-admin" href="usermanagement.html"><h3>👥 User Management</h3><p>Manage accounts and roles.</p></a>
-        <a class="card role-admin" href="systemsettings.html"><h3>🔧 System Settings</h3><p>Configure LMS preferences.</p></a>
-        <a class="card role-admin" href="roles.html"><h3>🛡️ Roles & Permissions</h3><p>Define access levels.</p></a>
-        <a class="card role-admin" href="analytics.html"><h3>📊 Reports & Analytics</h3><p>View system usage and performance.</p></a>
-      </div>
+      <p>Welcome to your admin dashboard!</p>
     </section>
 
-    <!-- New Announcement Section -->
+    <!-- Send announcements -->
     <section class="card-section">
       <h2>📢 Send Announcement to Teachers</h2>
-      <textarea id="adminMessage" placeholder="Type your announcement here..." style="width:100%;height:100px;"></textarea>
+      <textarea id="adminMessageTeachers" placeholder="Message for Teachers..." style="width:100%;height:80px;"></textarea>
       <br />
-      <button onclick="postAdminAnnouncement()" style="margin-top:10px;">Send Announcement</button>
+      <button onclick="postAdminToTeachers()" style="margin-top:10px;">Send to Teachers</button>
+    </section>
+
+    <section class="card-section">
+      <h2>📢 Send Announcement to Students & Parents</h2>
+      <textarea id="adminMessageSP" placeholder="Message for Students & Parents..." style="width:100%;height:80px;"></textarea>
+      <br />
+      <button onclick="postAdminToStudentsParents()" style="margin-top:10px;">Send to Students & Parents</button>
+    </section>
+
+    <section class="card-section">
+      <h2>📢 Send Announcement to Everyone</h2>
+      <textarea id="adminMessageAll" placeholder="Message for All..." style="width:100%;height:80px;"></textarea>
+      <br />
+      <button onclick="postAdminToAll()" style="margin-top:10px;">Send to All</button>
     </section>
   </main>
 

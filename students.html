@@ -6,10 +6,48 @@
   <title>Students · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    #announcementBadge { background:red;color:white;border-radius:50%;padding:4px 8px;font-size:0.9rem;margin-left:8px; }
-    .announcement { border:1px solid #ccc;background:#f9f9f9;padding:10px;margin:5px 0;cursor:pointer;border-radius:6px;transition:background 0.3s ease; }
-    .announcement.unread { border-color:red;background:#ffecec;font-weight:bold; }
-    .announcement:hover { background:#e6f0ff; }
+    /* Notification styles */
+    .notification {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-left: 20px;
+    }
+    .notification .badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .dropdown .announcement {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .dropdown .announcement.unread {
+      background: #ffecec;
+      font-weight: bold;
+    }
+    .dropdown .announcement:hover {
+      background: #f0f8ff;
+    }
   </style>
   <script>
     const role = localStorage.getItem("role");
@@ -40,35 +78,37 @@
         announcements[idx].readBy = readBy;
         localStorage.setItem("announcements", JSON.stringify(announcements));
       }
-      loadAnnouncements();
+      loadNotifications();
     }
 
-    function loadAnnouncements() {
-      const list = document.getElementById("announcementList");
-      const badge = document.getElementById("announcementBadge");
+    function loadNotifications() {
       const relevant = getRelevantAnnouncements(role);
+      const unread = relevant.filter(a => isUnreadForRole(a, role));
+      document.getElementById("badge").innerText = unread.length;
 
-      const unreadCount = relevant.filter(a => isUnreadForRole(a, role)).length;
-      badge.innerText = unreadCount;
-
-      list.innerHTML = "";
+      const dropdown = document.getElementById("dropdown");
+      dropdown.innerHTML = "";
       relevant
         .sort((a, b) => b.id - a.id)
         .forEach(a => {
-          const unread = isUnreadForRole(a, role);
-          const div = document.createElement("div");
-          div.className = "announcement" + (unread ? " unread" : "");
-          const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
-          div.innerHTML = `
-            <strong>${senderLabel}:</strong> ${unread ? "(New) " : ""}${a.message}
-            <em style="float:right">${a.time}</em>
-          `;
-          div.onclick = () => markAsReadById(a.id, role);
-          list.appendChild(div);
+          if (isUnreadForRole(a, role)) {
+            const div = document.createElement("div");
+            div.className = "announcement unread";
+            const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
+            div.innerHTML = `<strong>${senderLabel}:</strong> ${a.message}
+                             <em style="float:right">${a.time}</em>`;
+            div.onclick = () => markAsReadById(a.id, role);
+            dropdown.appendChild(div);
+          }
         });
     }
 
-    document.addEventListener("DOMContentLoaded", loadAnnouncements);
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", loadNotifications);
   </script>
 </head>
 <body>
@@ -77,18 +117,20 @@
       <h1 class="brand-title">Students</h1>
       <p class="brand-subtitle">Learn and play</p>
     </div>
-    <div><a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a></div>
+    <div>
+      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
+      <!-- Notification icon -->
+      <div class="notification" onclick="toggleDropdown()">
+        📩 <span id="badge" class="badge">0</span>
+        <div id="dropdown" class="dropdown"></div>
+      </div>
+    </div>
   </header>
 
   <main class="container">
     <section class="card-section">
       <h2>📘 Students Hub</h2>
       <p>Welcome to your learning space!</p>
-    </section>
-
-    <section class="card-section">
-      <h2>📢 Announcements <span id="announcementBadge">0</span></h2>
-      <div id="announcementList"></div>
     </section>
   </main>
 

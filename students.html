@@ -6,12 +6,24 @@
   <title>Students · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <script>
-    // Allow: student, parent, teacher, admin
-    const role = localStorage.getItem("role");
-    if (!["student","parent","teacher","admin"].includes(role)) {
-      alert("Access denied. Please log in.");
-      window.location.href = "login.html";
+    // Display announcements from Teachers only
+    function loadTeacherAnnouncements() {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const list = document.getElementById("teacherAnnouncements");
+      list.innerHTML = "";
+
+      announcements.forEach(a => {
+        if (a.role === "teacher") {
+          list.innerHTML += `
+            <div class="announcement">
+              <strong>Teacher:</strong> ${a.message} 
+              <em style="font-size:0.9em;color:#666;">${a.time}</em>
+            </div>`;
+        }
+      });
     }
+
+    document.addEventListener("DOMContentLoaded", loadTeacherAnnouncements);
   </script>
 </head>
 <body>
@@ -26,21 +38,65 @@
   </header>
 
   <main class="container">
+    <section class="menu-grid">
+      <a class="menu-card role-student" href="math.html">
+        <div class="menu-icon">🔢</div>
+        <h3 class="menu-title">Math</h3>
+        <p class="menu-desc">Numbers, shapes, practice.</p>
+      </a>
+
+      <a class="menu-card role-student" href="reading.html">
+        <div class="menu-icon">📖</div>
+        <h3 class="menu-title">Reading & Writing</h3>
+        <p class="menu-desc">Stories, phonics, spelling.</p>
+      </a>
+
+      <a class="menu-card role-student" href="science.html">
+        <div class="menu-icon">🔬</div>
+        <h3 class="menu-title">Science</h3>
+        <p class="menu-desc">Experiments, nature, quizzes.</p>
+      </a>
+
+      <a class="menu-card role-student" href="arts.html">
+        <div class="menu-icon">🎨</div>
+        <h3 class="menu-title">Arts & Crafts</h3>
+        <p class="menu-desc">Draw, color, create.</p>
+      </a>
+
+      <a class="menu-card role-student" href="pe.html">
+        <div class="menu-icon">🏃</div>
+        <h3 class="menu-title">Physical Education</h3>
+        <p class="menu-desc">Movement, games, health.</p>
+      </a>
+
+      <a class="menu-card role-student" href="games.html">
+        <div class="menu-icon">🎮</div>
+        <h3 class="menu-title">Games & Activities</h3>
+        <p class="menu-desc">Puzzles and mini-games.</p>
+      </a>
+
+      <a class="menu-card role-student" href="homework.html">
+        <div class="menu-icon">📝</div>
+        <h3 class="menu-title">Homework</h3>
+        <p class="menu-desc">Assignments and uploads.</p>
+      </a>
+
+      <a class="menu-card role-student" href="achievements.html">
+        <div class="menu-icon">🏆</div>
+        <h3 class="menu-title">Achievements</h3>
+        <p class="menu-desc">Stars and badges.</p>
+      </a>
+    </section>
+
+    <!-- Announcement Section -->
     <section class="card-section">
-      <h2>📚 Subjects Hub</h2>
-      <div class="card-container">
-        <a class="card role-student" href="math.html"><h3>🔢 Math</h3><p>Numbers, shapes, practice.</p></a>
-        <a class="card role-student" href="reading.html"><h3>📖 Reading & Writing</h3><p>Stories, phonics, spelling.</p></a>
-        <a class="card role-student" href="science.html"><h3>🔬 Science</h3><p>Experiments, nature, quizzes.</p></a>
-        <a class="card role-student" href="arts.html"><h3>🎨 Arts & Crafts</h3><p>Draw, color, create.</p></a>
-        <a class="card role-student" href="pe.html"><h3>🏃 Physical Education</h3><p>Movement, games, health.</p></a>
-        <a class="card role-student" href="games.html"><h3>🎮 Games & Activities</h3><p>Puzzles and mini-games.</p></a>
-        <a class="card role-student" href="homework.html"><h3>📝 Homework</h3><p>Assignments and uploads.</p></a>
-        <a class="card role-student" href="achievements.html"><h3>🏆 Achievements</h3><p>Stars and badges.</p></a>
-      </div>
+      <h2>📢 Announcements from Teachers</h2>
+      <div id="teacherAnnouncements" class="announcement-list"></div>
     </section>
   </main>
 
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

@@ -12,6 +12,20 @@
       alert("Access denied. Admin only.");
       window.location.href = "login.html";
     }
+
+    // Announcement posting logic
+    function postAdminAnnouncement() {
+      const message = document.getElementById("adminMessage").value.trim();
+      if (!message) {
+        alert("Please enter a message before sending.");
+        return;
+      }
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      announcements.push({ role: "admin", message, time: new Date().toLocaleString() });
+      localStorage.setItem("announcements", JSON.stringify(announcements));
+      document.getElementById("adminMessage").value = "";
+      alert("Announcement sent to Teachers.");
+    }
   </script>
 </head>
 <body>
@@ -34,6 +48,14 @@
         <a class="card role-admin" href="roles.html"><h3>🛡️ Roles & Permissions</h3><p>Define access levels.</p></a>
         <a class="card role-admin" href="analytics.html"><h3>📊 Reports & Analytics</h3><p>View system usage and performance.</p></a>
       </div>
+    </section>
+
+    <!-- New Announcement Section -->
+    <section class="card-section">
+      <h2>📢 Send Announcement to Teachers</h2>
+      <textarea id="adminMessage" placeholder="Type your announcement here..." style="width:100%;height:100px;"></textarea>
+      <br />
+      <button onclick="postAdminAnnouncement()" style="margin-top:10px;">Send Announcement</button>
     </section>
   </main>
 

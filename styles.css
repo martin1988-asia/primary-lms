@@ -58,7 +58,11 @@ body {
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* ---- Container layout ---- */
@@ -130,9 +134,7 @@ body {
   min-width: 180px;
 }
 
-.date-day {
-  font-weight: 600;
-}
+.date-day { font-weight: 600; }
 
 .date-full {
   font-size: var(--font-size-sm);
@@ -282,3 +284,38 @@ body {
 /* =========================================
    Responsive tweaks
    ========================================= */
+/* Add breakpoint adjustments here if needed */
+
+/* =========================================
+   Announcements Styling
+   ========================================= */
+.announcement-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.announcement {
+  background: var(--color-accent-soft);
+  border-left: 6px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-soft);
+  font-size: var(--font-size-md);
+  line-height: 1.4;
+}
+
+.announcement strong {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.announcement em {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+}

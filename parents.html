@@ -12,6 +12,25 @@
       alert("Access denied. Parents, Teachers, and Admin only.");
       window.location.href = "login.html";
     }
+
+    // Announcement display logic
+    function loadTeacherAnnouncements() {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const list = document.getElementById("teacherAnnouncements");
+      list.innerHTML = "";
+
+      announcements.forEach(a => {
+        if (a.role === "teacher") {
+          list.innerHTML += `
+            <div class="announcement">
+              <strong>Teacher:</strong> ${a.message} 
+              <em style="font-size:0.9em;color:#666;">${a.time}</em>
+            </div>`;
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadTeacherAnnouncements);
   </script>
 </head>
 <body>
@@ -36,8 +55,16 @@
         <a class="card role-parent" href="payments.html"><h3>💳 Payments</h3><p>Manage school fees.</p></a>
       </div>
     </section>
+
+    <!-- New Announcement Section -->
+    <section class="card-section">
+      <h2>📢 Announcements from Teachers</h2>
+      <div id="teacherAnnouncements" class="announcement-list"></div>
+    </section>
   </main>
 
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
+  <footer class="site-footer">
+    <p>© 2025 Asia & Julio Primary School</p>
+  </footer>
 </body>
 </html>

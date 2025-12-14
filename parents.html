@@ -6,48 +6,12 @@
   <title>Parents · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Notification styles */
-    .notification {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-      font-size: 1.5rem;
-      margin-left: 20px;
-    }
-    .notification .badge {
-      position: absolute;
-      top: -8px;
-      right: -10px;
-      background: red;
-      color: white;
-      border-radius: 50%;
-      padding: 4px 8px;
-      font-size: 0.8rem;
-    }
-    .dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      background: #fff;
-      min-width: 300px;
-      max-height: 400px;
-      overflow-y: auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      z-index: 1000;
-    }
-    .dropdown .announcement {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-    }
-    .dropdown .announcement.unread {
-      background: #ffecec;
-      font-weight: bold;
-    }
-    .dropdown .announcement:hover {
-      background: #f0f8ff;
-    }
+    .notification { position: relative; display:inline-block; cursor:pointer; font-size:1.5rem; margin-left:20px; }
+    .notification .badge { position:absolute; top:-8px; right:-10px; background:red; color:white; border-radius:50%; padding:4px 8px; font-size:0.8rem; }
+    .dropdown { display:none; position:absolute; right:0; background:#fff; min-width:300px; max-height:400px; overflow-y:auto; box-shadow:0 4px 12px rgba(0,0,0,0.2); border-radius:8px; z-index:1000; }
+    .dropdown .announcement { padding:12px; border-bottom:1px solid #eee; cursor:pointer; font-size:0.95rem; }
+    .dropdown .announcement.unread { background:#ffdddd; font-weight:bold; border-left:4px solid red; }
+    .dropdown .announcement:hover { background:#f0f8ff; }
   </style>
   <script>
     const role = localStorage.getItem("role");
@@ -58,15 +22,11 @@
 
     function getRelevantAnnouncements(currentRole) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      return announcements.filter(a => {
-        if (Array.isArray(a.audience) && a.audience.length) return a.audience.includes(currentRole);
-        // Legacy fallback: parents used to see teacher+admin
-        return a.role === "teacher" || a.role === "admin";
-      });
+      return announcements.filter(a => a.audience?.includes(currentRole) || a.role === "teacher" || a.role === "admin");
     }
 
     function isUnreadForRole(a, currentRole) {
-      return !(Array.isArray(a.readBy) && a.readBy.includes(currentRole));
+      return !(a.readBy?.includes(currentRole));
     }
 
     function markAsReadById(id, currentRole) {
@@ -88,19 +48,14 @@
 
       const dropdown = document.getElementById("dropdown");
       dropdown.innerHTML = "";
-      relevant
-        .sort((a, b) => b.id - a.id)
-        .forEach(a => {
-          if (isUnreadForRole(a, role)) {
-            const div = document.createElement("div");
-            div.className = "announcement unread";
-            const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
-            div.innerHTML = `<strong>${senderLabel}:</strong> ${a.message}
-                             <em style="float:right">${a.time}</em>`;
-            div.onclick = () => markAsReadById(a.id, role);
-            dropdown.appendChild(div);
-          }
-        });
+      relevant.sort((a,b)=>b.id-a.id).forEach(a => {
+        const unreadFlag = isUnreadForRole(a, role);
+        const div = document.createElement("div");
+        div.className = "announcement" + (unreadFlag ? " unread" : "");
+        div.innerHTML = `<strong>${a.role}:</strong> ${a.message}<em style="float:right">${a.time}</em>`;
+        div.onclick = () => markAsReadById(a.id, role);
+        if (unreadFlag) dropdown.appendChild(div);
+      });
     }
 
     function toggleDropdown() {

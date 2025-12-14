@@ -37,16 +37,29 @@
       z-index: 1000;
     }
     .dropdown .announcement {
-      padding: 10px;
+      padding: 12px;
       border-bottom: 1px solid #eee;
       cursor: pointer;
+      font-size: 0.95rem;
     }
     .dropdown .announcement.unread {
-      background: #ffecec;
+      background: #ffdddd;
       font-weight: bold;
+      border-left: 4px solid red;
     }
     .dropdown .announcement:hover {
       background: #f0f8ff;
+    }
+    .dropdown .controls {
+      padding: 8px;
+      text-align: center;
+      border-top: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+    .dropdown .controls button {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
     }
   </style>
   <script>
@@ -59,11 +72,10 @@
     // Save announcement with audience routing
     function saveAnnouncement({ senderRole, audience, message }) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const id = Date.now();
       announcements.push({
-        id,
+        id: Date.now(),
         role: senderRole,
-        audience, // array of target roles
+        audience,
         message,
         time: new Date().toLocaleString(),
         readBy: []
@@ -98,14 +110,11 @@
     // Helpers for displaying announcements
     function getRelevantAnnouncements(currentRole) {
       const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      return announcements.filter(a => {
-        if (Array.isArray(a.audience) && a.audience.length) return a.audience.includes(currentRole);
-        return true; // Admin sees all
-      });
+      return announcements; // Admin sees all
     }
 
     function isUnreadForRole(a, currentRole) {
-      return !(Array.isArray(a.readBy) && a.readBy.includes(currentRole));
+      return !(a.readBy?.includes(currentRole));
     }
 
     function markAsReadById(id, currentRole) {
@@ -120,6 +129,17 @@
       loadNotifications();
     }
 
+    function markAllAsRead(currentRole) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      announcements.forEach(a => {
+        const readBy = Array.isArray(a.readBy) ? a.readBy : [];
+        if (!readBy.includes(currentRole)) readBy.push(currentRole);
+        a.readBy = readBy;
+      });
+      localStorage.setItem("announcements", JSON.stringify(announcements));
+      loadNotifications();
+    }
+
     function loadNotifications() {
       const relevant = getRelevantAnnouncements(role);
       const unread = relevant.filter(a => isUnreadForRole(a, role));
@@ -127,19 +147,23 @@
 
       const dropdown = document.getElementById("dropdown");
       dropdown.innerHTML = "";
-      relevant
-        .sort((a, b) => b.id - a.id)
-        .forEach(a => {
-          if (isUnreadForRole(a, role)) {
-            const div = document.createElement("div");
-            div.className = "announcement unread";
-            const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
-            div.innerHTML = `<strong>${senderLabel}:</strong> ${a.message}
-                             <em style="float:right">${a.time}</em>`;
-            div.onclick = () => markAsReadById(a.id, role);
-            dropdown.appendChild(div);
-          }
-        });
+      relevant.sort((a,b)=>b.id-a.id).forEach(a => {
+        if (isUnreadForRole(a, role)) {
+          const div = document.createElement("div");
+          div.className = "announcement unread";
+          const senderLabel = a.role.charAt(0).toUpperCase() + a.role.slice(1);
+          div.innerHTML = `<strong>${senderLabel}:</strong> ${a.message}
+                           <em style="float:right">${a.time}</em>`;
+          div.onclick = () => markAsReadById(a.id, role);
+          dropdown.appendChild(div);
+        }
+      });
+      if (unread.length > 0) {
+        const controls = document.createElement("div");
+        controls.className = "controls";
+        controls.innerHTML = `<button onclick="markAllAsRead(role)">Mark all as read</button>`;
+        dropdown.appendChild(controls);
+      }
     }
 
     function toggleDropdown() {

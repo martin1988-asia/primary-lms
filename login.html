@@ -103,9 +103,6 @@
       // Save role for hub access checks
       localStorage.setItem("role", role);
 
-      // Show friendly welcome message
-      alert("Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "! 🎉");
-
       // Redirect ALL roles to home page first
       window.location.href = "index.html";
     });

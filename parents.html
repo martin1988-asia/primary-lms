@@ -5,32 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Parents · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Allow: parent, teacher, admin
-    const role = localStorage.getItem("role");
-    if (!["parent","teacher","admin"].includes(role)) {
-      alert("Access denied. Parents, Teachers, and Admin only.");
-      window.location.href = "login.html";
-    }
+    const supabaseUrl = "https://flwjrnzczjkiamcgvzev.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsd2pybnpjempraWFtY2d2emV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3MDczMTcsImV4cCI6MjA4MTI4MzMxN30.6QWeaOS1o0dkp0RirjW_x_P-hjs6BeM4ytgCYiTCOiQ";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Announcement display logic
-    function loadTeacherAnnouncements() {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+    async function loadTeacherAnnouncements() {
       const list = document.getElementById("teacherAnnouncements");
-      list.innerHTML = "";
+      list.innerHTML = "<div class='announcement'>Loading announcements...</div>";
 
-      announcements.forEach(a => {
-        if (a.role === "teacher") {
-          list.innerHTML += `
-            <div class="announcement">
-              <strong>Teacher:</strong> ${a.message} 
-              <em style="font-size:0.9em;color:#666;">${a.time}</em>
-            </div>`;
-        }
+      const { data, error } = await supabase
+        .from("announcements")
+        .select("*")
+        .eq("role", "teacher")
+        .order("time", { ascending: false });
+
+      if (error) {
+        list.innerHTML = "<div class='announcement'>Unable to load announcements right now.</div>";
+        return;
+      }
+
+      list.innerHTML = "";
+      (data || []).forEach(a => {
+        list.innerHTML += `
+          <div class="announcement">
+            <strong>Teacher:</strong> ${a.message}
+            <em style="display:block; font-size:0.9em; color:#666;">${a.time}</em>
+          </div>`;
       });
+
+      if (!data || data.length === 0) {
+        list.innerHTML = "<div class='announcement'>No announcements yet.</div>";
+      }
     }
 
-    document.addEventListener("DOMContentLoaded", loadTeacherAnnouncements);
+    document.addEventListener("DOMContentLoaded", () => {
+      loadTeacherAnnouncements();
+      // Optional: refresh every 60 seconds
+      setInterval(loadTeacherAnnouncements, 60000);
+    });
   </script>
 </head>
 <body>
@@ -39,27 +55,25 @@
       <h1 class="brand-title">Parents</h1>
       <p class="brand-subtitle">Stay connected</p>
     </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <div><a href="index.html" class="menu-card">← Back to Home</a></div>
   </header>
 
   <main class="container">
+    <!-- Parent hub cards (keep or replace with your existing ones) -->
     <section class="card-section">
-      <h2>👨‍👩‍👧 Parents Hub</h2>
-      <div class="card-container">
-        <a class="card role-parent" href="announcements.html"><h3>📢 Announcements</h3><p>School news and updates.</p></a>
-        <a class="card role-parent" href="progress.html"><h3>📈 Progress Reports</h3><p>Track your child’s performance.</p></a>
-        <a class="card role-parent" href="calendar.html"><h3>📅 School Calendar</h3><p>Events and schedules.</p></a>
-        <a class="card role-parent" href="messages.html"><h3>💬 Messages</h3><p>Communicate with teachers.</p></a>
-        <a class="card role-parent" href="payments.html"><h3>💳 Payments</h3><p>Manage school fees.</p></a>
+      <h2>Parent hub</h2>
+      <div class="menu-grid">
+        <a class="menu-card" href="#">Attendance</a>
+        <a class="menu-card" href="#">Grades</a>
+        <a class="menu-card" href="#">Events</a>
+        <a class="menu-card" href="#">Contact Teacher</a>
       </div>
     </section>
 
-    <!-- New Announcement Section -->
     <section class="card-section">
-      <h2>📢 Announcements from Teachers</h2>
+      <h2>📢 Announcements from teachers</h2>
       <div id="teacherAnnouncements" class="announcement-list"></div>
+      <button onclick="loadTeacherAnnouncements()" style="margin-top:12px;">Refresh</button>
     </section>
   </main>
 

@@ -5,24 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
-  <script>
-    // Allow: admin only
-    const role = localStorage.getItem("role");
-    if (role !== "admin") {
-      alert("Access denied. Admin only.");
-      window.location.href = "login.html";
-    }
 
-    // Announcement posting logic
-    function postAdminAnnouncement() {
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseUrl = "https://flwjrnzczjkiamcgvzev.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsd2pybnpjempraWFtY2d2emV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3MDczMTcsImV4cCI6MjA4MTI4MzMxN30.6QWeaOS1o0dkp0RirjW_x_P-hjs6BeM4ytgCYiTCOiQ";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function postAdminAnnouncement() {
       const message = document.getElementById("adminMessage").value.trim();
-      if (!message) {
-        alert("Please enter a message before sending.");
-        return;
-      }
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      announcements.push({ role: "admin", message, time: new Date().toLocaleString() });
-      localStorage.setItem("announcements", JSON.stringify(announcements));
+      if (!message) return alert("Please enter a message.");
+      await supabase.from("announcements").insert([
+        { role: "admin", message, time: new Date().toLocaleString() }
+      ]);
       document.getElementById("adminMessage").value = "";
       alert("Announcement sent to Teachers.");
     }
@@ -30,35 +26,13 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="brand">
-      <h1 class="brand-title">Admin</h1>
-      <p class="brand-subtitle">Control and manage</p>
-    </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <h1>Admin</h1>
+    <a href="index.html">← Back to Home</a>
   </header>
-
-  <main class="container">
-    <section class="card-section">
-      <h2>⚙️ Admin Hub</h2>
-      <div class="card-container">
-        <a class="card role-admin" href="usermanagement.html"><h3>👥 User Management</h3><p>Manage accounts and roles.</p></a>
-        <a class="card role-admin" href="systemsettings.html"><h3>🔧 System Settings</h3><p>Configure LMS preferences.</p></a>
-        <a class="card role-admin" href="roles.html"><h3>🛡️ Roles & Permissions</h3><p>Define access levels.</p></a>
-        <a class="card role-admin" href="analytics.html"><h3>📊 Reports & Analytics</h3><p>View system usage and performance.</p></a>
-      </div>
-    </section>
-
-    <!-- New Announcement Section -->
-    <section class="card-section">
-      <h2>📢 Send Announcement to Teachers</h2>
-      <textarea id="adminMessage" placeholder="Type your announcement here..." style="width:100%;height:100px;"></textarea>
-      <br />
-      <button onclick="postAdminAnnouncement()" style="margin-top:10px;">Send Announcement</button>
-    </section>
+  <main>
+    <h2>📢 Send Announcement to Teachers</h2>
+    <textarea id="adminMessage" rows="3" style="width:100%;"></textarea><br>
+    <button onclick="postAdminAnnouncement()">Send</button>
   </main>
-
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

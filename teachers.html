@@ -5,37 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teachers · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
-  <script>
-    // Allow: teacher, admin
-    const role = localStorage.getItem("role");
-    if (!["teacher","admin"].includes(role)) {
-      alert("Access denied. Teachers and Admin only.");
-      window.location.href = "login.html";
-    }
 
-    // Announcement logic
-    function postTeacherAnnouncement() {
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseUrl = "https://flwjrnzczjkiamcgvzev.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsd2pybnpjempraWFtY2d2emV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3MDczMTcsImV4cCI6MjA4MTI4MzMxN30.6QWeaOS1o0dkp0RirjW_x_P-hjs6BeM4ytgCYiTCOiQ";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function postTeacherAnnouncement() {
       const message = document.getElementById("teacherMessage").value.trim();
-      if (!message) {
-        alert("Please enter a message before sending.");
-        return;
-      }
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      announcements.push({ role: "teacher", message, time: new Date().toLocaleString() });
-      localStorage.setItem("announcements", JSON.stringify(announcements));
+      if (!message) return alert("Please enter a message.");
+      await supabase.from("announcements").insert([
+        { role: "teacher", message, time: new Date().toLocaleString() }
+      ]);
       document.getElementById("teacherMessage").value = "";
       alert("Announcement sent to Students & Parents.");
     }
 
-    function loadAdminAnnouncements() {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+    async function loadAdminAnnouncements() {
+      const { data } = await supabase.from("announcements")
+        .select("*").eq("role", "admin").order("time", { ascending: false });
       const list = document.getElementById("adminAnnouncements");
       list.innerHTML = "";
-
-      announcements.forEach(a => {
-        if (a.role === "admin") {
-          list.innerHTML += `<div class="announcement"><strong>Admin:</strong> ${a.message} <em>${a.time}</em></div>`;
-        }
+      data.forEach(a => {
+        list.innerHTML += `<div><strong>Admin:</strong> ${a.message} <em>${a.time}</em></div>`;
       });
     }
 
@@ -44,79 +38,16 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="brand">
-      <h1 class="brand-title">Teachers</h1>
-      <p class="brand-subtitle">Guide and manage</p>
-    </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <h1>Teachers</h1>
+    <a href="index.html">← Back to Home</a>
   </header>
+  <main>
+    <h2>📢 Announcements from Admin</h2>
+    <div id="adminAnnouncements"></div>
 
-  <main class="container">
-    <section class="card-section">
-      <h2>📘 Teachers Hub</h2>
-      <div class="card-container">
-        <a class="card role-teacher" href="lessonplans.html"><h3>📖 Lesson Plans</h3><p>Plan and organize lessons.</p></a>
-        <a class="card role-teacher" href="grading.html"><h3>📝 Grading</h3><p>Assess and record student performance.</p></a>
-        <a class="card role-teacher" href="classmanagement.html"><h3>🏫 Class Management</h3><p>Attendance and classroom control.</p></a>
-        <a class="card role-teacher" href="reports.html"><h3>📊 Reports</h3><p>Generate student progress reports.</p></a>
-        <a class="card role-teacher" href="exams.html"><h3>🧾 Exam Preparation</h3><p>Prepare and manage exams.</p></a>
-      </div>
-    </section>
-
-    <!-- New Announcement Section -->
-    <section class="card-section">
-      <h2>📢 Announcements from Admin</h2>
-      <div id="adminAnnouncements"></div>
-    </section>
-
-    <section class="card-section">
-      <h2>📢 Send Announcement to Students & Parents</h2>
-      <textarea id="teacherMessage" placeholder="Type your announcement here..." style="width:100%;height:100px;"></textarea>
-      <br />
-      <button onclick="postTeacherAnnouncement()" style="margin-top:10px;">Send Announcement</button>
-    </section>
+    <h2>📢 Send Announcement to Students & Parents</h2>
+    <textarea id="teacherMessage" rows="3" style="width:100%;"></textarea><br>
+    <button onclick="postTeacherAnnouncement()">Send</button>
   </main>
-
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
-</body>
-</html>
-"brand">
-      <h1 class="brand-title">Teachers</h1>
-      <p class="brand-subtitle">Guide and manage</p>
-    </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="card-section">
-      <h2>📘 Teachers Hub</h2>
-      <div class="card-container">
-        <a class="card role-teacher" href="lessonplans.html"><h3>📖 Lesson Plans</h3><p>Plan and organize lessons.</p></a>
-        <a class="card role-teacher" href="grading.html"><h3>📝 Grading</h3><p>Assess and record student performance.</p></a>
-        <a class="card role-teacher" href="classmanagement.html"><h3>🏫 Class Management</h3><p>Attendance and classroom control.</p></a>
-        <a class="card role-teacher" href="reports.html"><h3>📊 Reports</h3><p>Generate student progress reports.</p></a>
-        <a class="card role-teacher" href="exams.html"><h3>🧾 Exam Preparation</h3><p>Prepare and manage exams.</p></a>
-      </div>
-    </section>
-
-    <!-- New Announcement Section -->
-    <section class="card-section">
-      <h2>📢 Announcements from Admin</h2>
-      <div id="adminAnnouncements"></div>
-    </section>
-
-    <section class="card-section">
-      <h2>📢 Send Announcement to Students & Parents</h2>
-      <textarea id="teacherMessage" placeholder="Type your announcement here..." style="width:100%;height:100px;"></textarea>
-      <br />
-      <button onclick="postTeacherAnnouncement()" style="margin-top:10px;">Send Announcement</button>
-    </section>
-  </main>
-
-  <footer class="site-footer"><p>© 2025 Asia & Julio Primary School</p></footer>
 </body>
 </html>

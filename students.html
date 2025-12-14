@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Students · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Display announcements from Teachers only
-    function loadTeacherAnnouncements() {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+    const supabaseUrl = "https://flwjrnzczjkiamcgvzev.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsd2pybnpjempraWFtY2d2emV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3MDczMTcsImV4cCI6MjA4MTI4MzMxN30.6QWeaOS1o0dkp0RirjW_x_P-hjs6BeM4ytgCYiTCOiQ";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function loadTeacherAnnouncements() {
+      const { data } = await supabase.from("announcements")
+        .select("*").eq("role", "teacher").order("time", { ascending: false });
       const list = document.getElementById("teacherAnnouncements");
       list.innerHTML = "";
-
-      announcements.forEach(a => {
-        if (a.role === "teacher") {
-          list.innerHTML += `
-            <div class="announcement">
-              <strong>Teacher:</strong> ${a.message} 
-              <em style="font-size:0.9em;color:#666;">${a.time}</em>
-            </div>`;
-        }
+      data.forEach(a => {
+        list.innerHTML += `<div><strong>Teacher:</strong> ${a.message} <em>${a.time}</em></div>`;
       });
     }
 
@@ -28,75 +28,12 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="brand">
-      <h1 class="brand-title">Students</h1>
-      <p class="brand-subtitle">Learn and play</p>
-    </div>
-    <div>
-      <a href="index.html" class="menu-card" style="padding:8px 12px;">← Back to Home</a>
-    </div>
+    <h1>Students</h1>
+    <a href="index.html">← Back to Home</a>
   </header>
-
-  <main class="container">
-    <section class="menu-grid">
-      <a class="menu-card role-student" href="math.html">
-        <div class="menu-icon">🔢</div>
-        <h3 class="menu-title">Math</h3>
-        <p class="menu-desc">Numbers, shapes, practice.</p>
-      </a>
-
-      <a class="menu-card role-student" href="reading.html">
-        <div class="menu-icon">📖</div>
-        <h3 class="menu-title">Reading & Writing</h3>
-        <p class="menu-desc">Stories, phonics, spelling.</p>
-      </a>
-
-      <a class="menu-card role-student" href="science.html">
-        <div class="menu-icon">🔬</div>
-        <h3 class="menu-title">Science</h3>
-        <p class="menu-desc">Experiments, nature, quizzes.</p>
-      </a>
-
-      <a class="menu-card role-student" href="arts.html">
-        <div class="menu-icon">🎨</div>
-        <h3 class="menu-title">Arts & Crafts</h3>
-        <p class="menu-desc">Draw, color, create.</p>
-      </a>
-
-      <a class="menu-card role-student" href="pe.html">
-        <div class="menu-icon">🏃</div>
-        <h3 class="menu-title">Physical Education</h3>
-        <p class="menu-desc">Movement, games, health.</p>
-      </a>
-
-      <a class="menu-card role-student" href="games.html">
-        <div class="menu-icon">🎮</div>
-        <h3 class="menu-title">Games & Activities</h3>
-        <p class="menu-desc">Puzzles and mini-games.</p>
-      </a>
-
-      <a class="menu-card role-student" href="homework.html">
-        <div class="menu-icon">📝</div>
-        <h3 class="menu-title">Homework</h3>
-        <p class="menu-desc">Assignments and uploads.</p>
-      </a>
-
-      <a class="menu-card role-student" href="achievements.html">
-        <div class="menu-icon">🏆</div>
-        <h3 class="menu-title">Achievements</h3>
-        <p class="menu-desc">Stars and badges.</p>
-      </a>
-    </section>
-
-    <!-- Announcement Section -->
-    <section class="card-section">
-      <h2>📢 Announcements from Teachers</h2>
-      <div id="teacherAnnouncements" class="announcement-list"></div>
-    </section>
+  <main>
+    <h2>📢 Announcements from Teachers</h2>
+    <div id="teacherAnnouncements"></div>
   </main>
-
-  <footer class="site-footer">
-    <p>© 2025 Asia & Julio Primary School</p>
-  </footer>
 </body>
 </html>

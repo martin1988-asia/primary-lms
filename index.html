@@ -5,12 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home · Asia & Julio Primary School LMS</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    #welcomeBanner {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+      color: #2575fc;
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <div class="brand">
       <h1 class="brand-title">Asia & Julio Primary School LMS</h1>
       <p class="brand-subtitle">Choose your hub</p>
+      <!-- Personalized welcome banner -->
+      <div id="welcomeBanner"></div>
     </div>
   </header>
 
@@ -74,6 +84,12 @@
     } else {
       // No role → back to login
       window.location.href = "login.html";
+    }
+
+    // Show personalized banner
+    if (role) {
+      document.getElementById("welcomeBanner").innerText =
+        "Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "!";
     }
 
     // Logout function

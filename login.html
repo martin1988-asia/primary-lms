@@ -103,18 +103,11 @@
       // Save role for hub access checks
       localStorage.setItem("role", role);
 
-      // Show friendly welcome message before redirect
+      // Show friendly welcome message
       alert("Welcome " + role.charAt(0).toUpperCase() + role.slice(1) + "! 🎉");
 
-      if (role === "admin") {
-        window.location.href = "admin.html";
-      } else if (role === "teacher") {
-        window.location.href = "teachers.html";
-      } else if (role === "student") {
-        window.location.href = "students.html";
-      } else if (role === "parent") {
-        window.location.href = "parents.html";
-      }
+      // Redirect ALL roles to home page first
+      window.location.href = "index.html";
     });
   </script>
 </body>
